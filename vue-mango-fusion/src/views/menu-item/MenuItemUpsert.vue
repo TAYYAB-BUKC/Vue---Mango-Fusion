@@ -114,6 +114,7 @@
     let errorList = reactive([]);
     const newUploadedImage = ref('');
     const newUploadedImage_Base64 = ref('');
+    let formData = new FormData();
 
     const HandleImageUpload = (event) => {
         if(event.target.files.length > 0){
@@ -149,8 +150,16 @@
             errorList.push('Category must be selected.');
         }
 
+        if(menuItem.imageURL == '' && newUploadedImage_Base64.value == ''){
+            errorList.push('Image must be uploaded.');
+        }
+
         if(!errorList.length){
             console.log(menuItem);
+            Object.entries(menuItem).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
+            formData.append('File', newUploadedImage.value);
         }
 
         isLoading.value = false;
