@@ -1,0 +1,3 @@
+<template>
+    Order Confirmation
+</template>
