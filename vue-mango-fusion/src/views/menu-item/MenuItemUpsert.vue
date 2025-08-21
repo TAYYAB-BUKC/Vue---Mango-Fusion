@@ -11,10 +11,9 @@
         <h3 class="fw-semibold text-success">Add Menu</h3>
         <div class="d-flex gap-3">
           <button
-            type="button"
+            type="submit"
             form="menuForm"
             class="btn btn-success btn-sm gap-2 rounded-1 px-4 py-2"
-            @click="console.log(menuItem);"
           >
             <span class="spinner-border spinner-border-sm me-2"></span>
             Create Item
@@ -31,7 +30,7 @@
           <li v-for="error in errorList" :key="error">{{ error }}</li>
         </ul>
       </div>
-      <form enctype="multipart/form-data" class="needs-validation" id="menuForm">
+      <form enctype="multipart/form-data" class="needs-validation" id="menuForm" @submit.prevent="OnFormSubmit">
         <div class="row g-4">
           <div class="col-lg-7">
             <div class="d-flex flex-column g-12">
@@ -112,5 +111,29 @@
         price: 0.00,
         imageURL: ''
     });
-    const errorList = reactive([]);
+    let errorList = reactive([]);
+
+    const OnFormSubmit = async (event) =>  {
+        event.preventDefault();
+        errorList = [];
+        isLoading.value = true;
+
+        if(menuItem.name.length <= 3){
+            errorList.push('Name should be at least 3 character long.');
+        }
+
+        if(menuItem.price <= 0){
+            errorList.push('Price must be greater than 0.');
+        }
+
+        if(menuItem.category == '' || menuItem.category == null || menuItem.category == undefined){
+            errorList.push('Category must be selected.');
+        }
+
+        if(!errorList.length){
+            console.log(menuItem);
+        }
+
+        isLoading.value = false;
+    }
 </script>
