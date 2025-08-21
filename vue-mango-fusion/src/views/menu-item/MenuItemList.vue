@@ -4,16 +4,17 @@
 
 <script setup>
     import menuItemService from '@/services/menuItemService';
-    import {ref, onMounted} from 'vue';
+    import {ref, onMounted, reactive} from 'vue';
 
-    const menuItems = ref([]);
+    const menuItems = reactive([]);
     const isLoading = ref(false);
 
     async function FetchMenuItems(){
         try {
             isLoading.value = true;
-            menuItems.value = await menuItemService.GetMenuItems();
-            console.log(menuItems.value);
+            var data = await menuItemService.GetMenuItems();
+            menuItems.push(...data);
+            console.log(menuItems);
         } catch (error) {
             console.error(error);
         }
