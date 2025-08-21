@@ -5,7 +5,7 @@ export const useThemeStore = defineStore('ThemeStore', () => {
 
     const theme = ref('dark');
 
-    setTheme = (newTheme) =>{
+    const setTheme = (newTheme) =>{
         theme.value = newTheme;
         document.body.setAttribute('data-bs-theme', theme.value);
     }
