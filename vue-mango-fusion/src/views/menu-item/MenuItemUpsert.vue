@@ -78,14 +78,14 @@
 
           <div class="col-lg-5">
             <div>
-              <img
-                src=""
+              <img v-if="newUploadedImage_Base64 != '' || menuItem.imageURL != ''"
+                :src="newUploadedImage_Base64 == '' ? menuItem.imageURL : newUploadedImage_Base64"
                 class="img-fluid w-100 mb-3 rounded"
                 style="aspect-ratio: 1/1; object-fit: cover"
               />
               <div class="mb-3">
                 <label for="image" class="form-label">Item Image</label>
-                <input id="image" type="file" class="form-control" accept="image/*" />
+                <input id="image" type="file" class="form-control" accept="image/*" @change="HandleImageUpload" />
                 <div class="form-text">Leave empty to keep existing image</div>
               </div>
             </div>
@@ -112,6 +112,25 @@
         imageURL: ''
     });
     let errorList = reactive([]);
+    const newUploadedImage = ref('');
+    const newUploadedImage_Base64 = ref('');
+
+    const HandleImageUpload = (event) => {
+        if(event.target.files.length > 0){
+            let file = event.target.files[0];
+            
+            if(file){
+                newUploadedImage.value = file;
+
+                var reader = new FileReader();
+                reader.onload = (file) => {
+                    newUploadedImage_Base64.value = file.target.result;
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+    }
 
     const OnFormSubmit = async (event) =>  {
         event.preventDefault();
