@@ -111,7 +111,7 @@
         if(confirmResult.isConfirmed){
             isLoading.value = true;
             try {
-                response = await menuItemService.DeleteMenuItemById(id);
+                let response = await menuItemService.DeleteMenuItemById(id);
                 if(response){
                     showSuccess('MenuItem deleted successfully!!!');
                     FetchMenuItems();
@@ -124,7 +124,7 @@
                 showError(error);
             }
             finally{
-                 isLoading.value = true;
+                 isLoading.value = false;
             }
         }
     }
