@@ -92,7 +92,10 @@
         try {
             isLoading.value = true;
             var data = await menuItemService.GetMenuItems();
-            menuItems.push(...data);
+            if(data){
+                menuItems.length = 0;
+                menuItems.push(...data);
+            }
             console.log(menuItems);
         } catch (error) {
             console.error(error);
