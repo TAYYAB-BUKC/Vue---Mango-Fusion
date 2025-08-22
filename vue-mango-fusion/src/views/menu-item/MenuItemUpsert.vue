@@ -19,7 +19,7 @@
             Create Item
           </button>
 
-          <button type="button" class="btn btn-outline border btn-sm gap-2 rounded-1 px-4 py-2">
+          <button type="button" class="btn btn-outline border btn-sm gap-2 rounded-1 px-4 py-2" @click="router.push({name: APP_ROUTE_NAMES.MENU_ITEM_LIST})">
             Cancel
           </button>
         </div>
@@ -102,6 +102,7 @@
     import { API_URL } from '@/constants/config';
     import { CATEGORIES } from '@/constants/constants';
     import menuItemService from '@/services/menuItemService';
+import { APP_ROUTE_NAMES } from '@/constants/routeNames';
 
     const isLoading = ref(false);
     const menuItem = reactive({
@@ -116,6 +117,7 @@
     const newUploadedImage = ref('');
     const newUploadedImage_Base64 = ref('');
     let formData = new FormData();
+    const router = useRouter();
 
     const HandleImageUpload = (event) => {
         if(event.target.files.length > 0){
