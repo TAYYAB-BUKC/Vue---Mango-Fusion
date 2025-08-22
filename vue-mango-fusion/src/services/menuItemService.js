@@ -45,5 +45,20 @@ export default {
             console.error(error);
             throw error;
         }
+    },
+    async UpdateMenuItem(id, formData){
+        try{
+            const response = await api.put(`/api/menuitem?id=${id}`, formData);
+            console.log(response);
+            if(response.data.isSuccess){
+                return response.data.data;
+            }
+            else{
+                throw new Error('Unable to update menuitem');
+            }
+        }catch(error){
+            console.error(error);
+            throw error;
+        }
     }
 }
