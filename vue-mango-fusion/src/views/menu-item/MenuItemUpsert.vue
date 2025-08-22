@@ -14,8 +14,9 @@
             type="submit"
             form="menuForm"
             class="btn btn-success btn-sm gap-2 rounded-1 px-4 py-2"
+            :disabled="isLoading"
           >
-            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span>
             {{ menuItemIdForUpdate ? 'Update' : 'Create'  }} Item
           </button>
 
@@ -171,6 +172,7 @@
             await menuItemService.CreateMenuItem(formData)
                              .then(() => {
                                 alert(`${menuItem.name} MenuItem Created!!!`);
+                                router.push({name: APP_ROUTE_NAMES.MENU_ITEM_LIST});
                              })
                              .catch((err)=>{
                                 console.error(err);
@@ -180,6 +182,7 @@
             await menuItemService.UpdateMenuItem(menuItemIdForUpdate, formData)
                     .then(() => {
                         alert(`${menuItem.name} MenuItem Updated!!!`);
+                        router.push({name: APP_ROUTE_NAMES.MENU_ITEM_LIST});
                     })
                     .catch((err)=>{
                         console.error(err);
