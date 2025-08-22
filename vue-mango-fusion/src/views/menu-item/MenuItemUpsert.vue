@@ -104,15 +104,16 @@
     import { CATEGORIES } from '@/constants/constants';
     import menuItemService from '@/services/menuItemService';
     import { APP_ROUTE_NAMES } from '@/constants/routeNames';
-
+    import { useSweetAlert } from '@/composibles/useSweetAlert';
+    const { showSuccess, showError } = useSweetAlert();
+    
     const isLoading = ref(false);
     const menuItem = reactive({
         name: '',
         description: '',
         category: '',
         specialTag: '',
-        price: 0.00,
-        imageURL: ''
+        price: 0.00,imageURL: ''
     });
     let errorList = reactive([]);
     const newUploadedImage = ref('');
@@ -171,21 +172,23 @@
         if(!menuItemIdForUpdate){
             await menuItemService.CreateMenuItem(formData)
                              .then(() => {
-                                alert(`${menuItem.name} MenuItem Created!!!`);
+                                showSuccess(`${menuItem.name} MenuItem Created Successfully!!!`);
                                 router.push({name: APP_ROUTE_NAMES.MENU_ITEM_LIST});
                              })
                              .catch((err)=>{
                                 console.error(err);
+                                showError(`${menuItem.name} MenuItem Create Failed!!!`);
                              });
         }
         else{
             await menuItemService.UpdateMenuItem(menuItemIdForUpdate, formData)
                     .then(() => {
-                        alert(`${menuItem.name} MenuItem Updated!!!`);
+                        showSuccess(`${menuItem.name} MenuItem Updated Successfully!!!`);
                         router.push({name: APP_ROUTE_NAMES.MENU_ITEM_LIST});
                     })
                     .catch((err)=>{
                         console.error(err);
+                        showError(`${menuItem.name} MenuItem Update Failed!!!`);
                     });
         }
 
