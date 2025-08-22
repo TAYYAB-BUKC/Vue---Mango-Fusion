@@ -79,7 +79,7 @@
           <div class="col-lg-5">
             <div>
               <img v-if="newUploadedImage_Base64 != '' || menuItem.imageURL != ''"
-                :src="newUploadedImage_Base64 == '' ? menuItem.imageURL : newUploadedImage_Base64"
+                :src="newUploadedImage_Base64 == '' ? `${API_URL}/${menuItem.imageURL}` : newUploadedImage_Base64"
                 class="img-fluid w-100 mb-3 rounded"
                 style="aspect-ratio: 1/1; object-fit: cover"
               />
@@ -102,7 +102,7 @@
     import { API_URL } from '@/constants/config';
     import { CATEGORIES } from '@/constants/constants';
     import menuItemService from '@/services/menuItemService';
-import { APP_ROUTE_NAMES } from '@/constants/routeNames';
+    import { APP_ROUTE_NAMES } from '@/constants/routeNames';
 
     const isLoading = ref(false);
     const menuItem = reactive({
@@ -118,6 +118,8 @@ import { APP_ROUTE_NAMES } from '@/constants/routeNames';
     const newUploadedImage_Base64 = ref('');
     let formData = new FormData();
     const router = useRouter();
+    const route = useRoute();
+    const menuItemIdForUpdate = route.params.id;
 
     const HandleImageUpload = (event) => {
         if(event.target.files.length > 0){
@@ -174,4 +176,24 @@ import { APP_ROUTE_NAMES } from '@/constants/routeNames';
                              });
         isLoading.value = false;
     }
+
+    async function FetchMenuItem(){
+        if(!menuItemIdForUpdate) return;
+        
+        isLoading.value = true;
+        try {
+            var data = await menuItemService.GetMenuItemById(menuItemIdForUpdate);
+            Object.assign(menuItem, data);
+            console.log(menuItems);
+        } catch (error) {
+            console.error(error);
+        }
+        finally{
+            isLoading.value = false;
+        }
+    }
+
+    onMounted(()=>{
+        FetchMenuItem();
+    });
 </script>
