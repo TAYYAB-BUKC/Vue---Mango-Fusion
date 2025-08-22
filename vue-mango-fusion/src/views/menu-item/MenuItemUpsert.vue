@@ -16,7 +16,7 @@
             class="btn btn-success btn-sm gap-2 rounded-1 px-4 py-2"
           >
             <span class="spinner-border spinner-border-sm me-2"></span>
-            Create Item
+            {{ menuItemIdForUpdate ? 'Update' : 'Create'  }} Item
           </button>
 
           <button type="button" class="btn btn-outline border btn-sm gap-2 rounded-1 px-4 py-2" @click="router.push({name: APP_ROUTE_NAMES.MENU_ITEM_LIST})">
@@ -155,7 +155,7 @@
             errorList.push('Category must be selected.');
         }
 
-        if(menuItem.imageURL == '' && newUploadedImage_Base64.value == ''){
+        if(menuItem.imageURL == '' && newUploadedImage_Base64.value == '' && !menuItemIdForUpdate){
             errorList.push('Image must be uploaded.');
         }
 
@@ -167,13 +167,25 @@
             formData.append('Image', newUploadedImage.value);
         }
 
-        await menuItemService.CreateMenuItem(formData)
+        if(!menuItemIdForUpdate){
+            await menuItemService.CreateMenuItem(formData)
                              .then(() => {
                                 alert(`${menuItem.name} MenuItem Created!!!`);
                              })
                              .catch((err)=>{
                                 console.error(err);
                              });
+        }
+        else{
+            await menuItemService.UpdateMenuItem(menuItemIdForUpdate, formData)
+                    .then(() => {
+                        alert(`${menuItem.name} MenuItem Updated!!!`);
+                    })
+                    .catch((err)=>{
+                        console.error(err);
+                    });
+        }
+
         isLoading.value = false;
     }
 
