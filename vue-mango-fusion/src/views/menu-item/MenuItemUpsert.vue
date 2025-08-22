@@ -101,6 +101,7 @@
     import { useRoute, useRouter } from 'vue-router';
     import { API_URL } from '@/constants/config';
     import { CATEGORIES } from '@/constants/constants';
+    import menuItemService from '@/services/menuItemService';
 
     const isLoading = ref(false);
     const menuItem = reactive({
@@ -159,9 +160,16 @@
             Object.entries(menuItem).forEach(([key, value]) => {
                 formData.append(key, value);
             });
-            formData.append('File', newUploadedImage.value);
+            formData.append('Image', newUploadedImage.value);
         }
 
+        await menuItemService.CreateMenuItem(formData)
+                             .then(() => {
+                                alert(`${menuItem.name} MenuItem Created!!!`);
+                             })
+                             .catch((err)=>{
+                                console.error(err);
+                             });
         isLoading.value = false;
     }
 </script>
