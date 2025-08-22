@@ -58,6 +58,9 @@
                                 <button class="btn btn-sm btn-outline-success" @click="router.push({name: `${APP_ROUTE_NAMES.EDIT_MENU_ITEM}`, params: {id: `${menuItem.id}`}})">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
+                                <!-- <button class="btn btn-sm btn-outline-success" @click="router.push({name: APP_ROUTE_NAMES.EDIT_MENU_ITEM, params: {id: menuItem.id}})">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button> -->
                                 <button class="btn btn-sm btn-outline-danger">
                                     <i class="bi bi-trash3-fill"></i>
                                 </button>
