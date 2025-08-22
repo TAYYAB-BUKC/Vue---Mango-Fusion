@@ -61,7 +61,7 @@
                                 <!-- <button class="btn btn-sm btn-outline-success" @click="router.push({name: APP_ROUTE_NAMES.EDIT_MENU_ITEM, params: {id: menuItem.id}})">
                                     <i class="bi bi-pencil-square"></i>
                                 </button> -->
-                                <button class="btn btn-sm btn-outline-danger">
+                                <button class="btn btn-sm btn-outline-danger" @click="HandleMenuItemDelete(menuItem.id)">
                                     <i class="bi bi-trash3-fill"></i>
                                 </button>
                                 </div>
@@ -80,7 +80,9 @@
     import {ref, onMounted, reactive} from 'vue';
     import { useRouter } from 'vue-router';
     import menuItemService from '@/services/menuItemService';
-import { API_URL } from '@/constants/config';
+    import { API_URL } from '@/constants/config';
+    import { useSweetAlert } from '@/composibles/useSweetAlert';
+    const { showSuccess, showError, showConfirm } = useSweetAlert();
 
     const menuItems = reactive([]);
     const isLoading = ref(false);
@@ -103,5 +105,28 @@ import { API_URL } from '@/constants/config';
     onMounted(()=>{
         FetchMenuItems();
     });
+
+    async function HandleMenuItemDelete(id){
+        const confirmResult = await showConfirm('Are you sure you want to delete this menu item?');
+        if(confirmResult.isConfirmed){
+            isLoading.value = true;
+            try {
+                response = await menuItemService.DeleteMenuItemById(id);
+                if(response){
+                    showSuccess('MenuItem deleted successfully!!!');
+                    FetchMenuItems();
+                }
+                else{
+                    showError('Unable to delete the menuitem');
+                }
+            } catch (error) {
+                console.error(error);
+                showError(error);
+            }
+            finally{
+                 isLoading.value = true;
+            }
+        }
+    }
 
 </script>

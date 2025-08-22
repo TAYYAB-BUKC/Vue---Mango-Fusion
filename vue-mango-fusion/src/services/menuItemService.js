@@ -61,7 +61,7 @@ export default {
             throw error;
         }
     },
-    async DeleteMenuItem(id){
+    async DeleteMenuItemById(id){
         try{
             const response = await api.delete(`/api/menuitem?id=${id}`);
             console.log(response);
