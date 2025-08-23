@@ -11,7 +11,7 @@
           <p class="text-body-secondary mb-4">
             Looks like you haven't added any items to your cart yet.
           </p>
-          <button class="btn btn-success">
+          <button class="btn btn-success" @click="HandleContinueShopping">
             <i class="bi bi-arrow-left-square"></i>
             Continue Shopping
           </button>
@@ -47,6 +47,7 @@
                           <button
                             class="btn btn-outline-secondary"
                             type="button"
+                            @click="DecreaseQuantity(menuItem)"
                           >
                             <i class="bi bi-dash"></i>
                           </button>
@@ -55,15 +56,18 @@
                             class="form-control text-center px-2"
                             readonly
                             style="max-width: 50px"
+                            v-model="menuItem.quantity"
                           />
                           <button
                             class="btn btn-outline-secondary"
                             type="button"
+                            @click="IncreaseQuantity(menuItem)"
                           >
                             <i class="bi bi-plus"></i>
                           </button>
                           <button
                             class="btn btn-sm btn-outline-danger mx-md-4 mx-1"
+                            @click="cartStore.RemoveFromCart(menuItem)"
                           >
                             <i class="bi bi-trash"></i>
                           </button>
@@ -79,11 +83,11 @@
           <div class="row g-4">
             <div class="col-md-6">
               <div class="d-flex gap-2">
-                <button class="btn btn-outline-success" >
+                <button class="btn btn-outline-success" @click="HandleContinueShopping">
                   <i class="bi bi-arrow-left-square mx-1"></i>
                   <span class="">Continue Shopping</span>
                 </button>
-                <button class="btn btn-outline-danger" >
+                <button class="btn btn-outline-danger" @click="cartStore.ClearCart()">
                   <i class="bi bi-trash mx-1"></i>
                   <span class="">Clear Cart</span>
                 </button>
@@ -122,6 +126,21 @@
 <script setup>
     import { useCartStore } from '@/stores/cartStore';
     import { API_URL } from '@/constants/config';
+    import { useRouter } from 'vue-router';
+    import { APP_ROUTE_NAMES } from '@/constants/routeNames';
 
     const cartStore = useCartStore();
+    const router = useRouter();
+
+    function IncreaseQuantity(menuItem){
+      cartStore.UpdateQuantity(menuItem, menuItem.quantity + 1);
+    }
+
+    function DecreaseQuantity(menuItem){
+      cartStore.UpdateQuantity(menuItem, menuItem.quantity - 1);
+    }
+    
+    function HandleContinueShopping(){
+        router.push({ name: APP_ROUTE_NAMES.HOME });
+    }
 </script>

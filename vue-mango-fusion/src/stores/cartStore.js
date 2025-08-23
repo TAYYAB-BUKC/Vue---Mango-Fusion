@@ -28,7 +28,9 @@ export const useCartStore = defineStore('CartStore', ()=>{
     }
 
     function ClearCart(){
-        cartItems = [];
+        console.log('ClearCart');
+        //cartItems = [];
+        cartItems.length = 0;
     }
 
     function RemoveFromCart(menuItem){
