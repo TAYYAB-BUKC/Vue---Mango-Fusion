@@ -99,7 +99,11 @@
     const quantity = computed(() => cartItem.value?.quantity);
 
     function AddToCart(){
-        cartStore.AddToCart(props.menuItem);
+        isProcessing.value = true;
+        setTimeout(()=>{
+          cartStore.AddToCart(props.menuItem);
+          isProcessing.value = false;
+        }, 500);
     }
 
     function IncreaseQuantity(){
