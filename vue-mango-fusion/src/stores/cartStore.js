@@ -1,23 +1,23 @@
 import { defineStore } from "pinia";
-import { reactive, computed } from "vue";
+import { ref, computed } from "vue";
 
 export const useCartStore = defineStore('CartStore', ()=>{
 
-    const cartItems = reactive([]);
+    const cartItems = ref([]);
     const cartCount = computed(()=> {
-        return cartItems.reduce((total, menuItem) => total + menuItem.quantity, 0);
+        return cartItems.value.reduce((total, menuItem) => total + menuItem.quantity, 0);
     });
     const cartTotal = computed(()=> {
-        return cartItems.reduce((total, menuItem) => total + menuItem.quantity * menuItem.price, 0);
+        return cartItems.value.reduce((total, menuItem) => total + menuItem.quantity * menuItem.price, 0);
     });
 
     function AddToCart(menuItem, quantity = 1){
-        let existingItem = cartItems.find((cartMenuItem) => cartMenuItem.id === menuItem.id);
+        let existingItem = cartItems.value.find((cartMenuItem) => cartMenuItem.id === menuItem.id);
         if(existingItem){
             existingItem.quantity += quantity;
         }
         else{
-            cartItems.push({
+            cartItems.value.push({
                 id: menuItem.id,
                 name: menuItem.name,
                 quantity: quantity,
@@ -30,18 +30,18 @@ export const useCartStore = defineStore('CartStore', ()=>{
     function ClearCart(){
         console.log('ClearCart');
         //cartItems = [];
-        cartItems.length = 0;
+        cartItems.value.length = 0;
     }
 
     function RemoveFromCart(menuItem){
-        const menuItemIndex = cartItems.findIndex((cartMenuItem) => cartMenuItem.id === menuItem.id);
+        const menuItemIndex = cartItems.value.findIndex((cartMenuItem) => cartMenuItem.id === menuItem.id);
         if(menuItemIndex !== -1){
-            cartItems.splice(menuItemIndex, 1);
+            cartItems.value.splice(menuItemIndex, 1);
         }
     }
 
     function UpdateQuantity(menuItem, quantity){
-        const cartMenuItem = cartItems.find((cartMenuItem) => cartMenuItem.id === menuItem.id);
+        const cartMenuItem = cartItems.value.find((cartMenuItem) => cartMenuItem.id === menuItem.id);
         if(cartMenuItem){
             if(quantity <= 0){
                 RemoveFromCart(cartMenuItem);
