@@ -12,11 +12,11 @@
         <button class="btn" @click="emit('CloseModal')"><i class="bi bi-x-circle"></i></button>
       </div>
 
-      <div class="alert alert-danger" role="alert">
-        <span class="d-block"> ERROR </span>
+      <div class="alert alert-danger" role="alert" v-if="errorList.length > 0">
+        <span class="d-block" v-for="error in errorList" :key="error">{{ error }}</span>
       </div>
 
-      <form>
+      <form @submit.prevent="PlaceOrder">
         <div class="mb-3">
           <label for="pickupName" class="form-label">Name</label>
           <input v-model="order.name" type="text" class="form-control" id="pickupName" />
@@ -97,4 +97,37 @@
             // }
         ]
     });
+    const errorList = reactive([]);
+
+    async function PlaceOrder(){
+        try {
+            isProcessing.value = true;
+            errorList.length = 0;
+            
+            if(order.name.length === 0 || order.name == undefined){
+                errorList.push('Name is required.');
+            }
+
+            if(order.email.length === 0 || order.email == undefined){
+                errorList.push('Email is required.');
+            }
+
+            if(order.phoneNumber.length === 0 || order.phoneNumber == undefined){
+                errorList.push('PhoneNumber is required.');
+            }
+
+            if(errorList.length > 0){
+                
+            }
+            else{
+                // Place Order
+            }
+        } catch (error) {
+            console.error(error.message);
+            errorList.push(error.message);
+        }
+        finally{
+            isProcessing.value = false;
+        }
+    }
 </script>
