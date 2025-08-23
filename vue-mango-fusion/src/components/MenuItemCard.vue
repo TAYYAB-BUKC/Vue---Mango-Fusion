@@ -58,7 +58,7 @@
           </button>
 
           <div class="input-group input-group-sm w-100" v-else>
-            <button class="btn btn-outline-secondary" type="button">
+            <button class="btn btn-outline-secondary" type="button" @click="DecreaseQuantity">
               <i class="bi bi-dash"></i>
             </button>
             <input
@@ -68,7 +68,7 @@
               style="max-width: 50px"
               :value="quantity"
             />
-            <button class="btn btn-outline-secondary" type="button">
+            <button class="btn btn-outline-secondary" type="button" @click="IncreaseQuantity">
               <i class="bi bi-plus"></i>
             </button>
           </div>
@@ -81,7 +81,7 @@
 <script setup>
     import { API_URL } from '@/constants/config';
     import { useCartStore } from '@/stores/cartStore';
-    import { ref } from 'vue';
+    import { ref, computed } from 'vue';
 
     const props = defineProps({
         menuItem: Object
@@ -100,5 +100,13 @@
 
     function AddToCart(){
         cartStore.AddToCart(props.menuItem);
-}
+    }
+
+    function IncreaseQuantity(){
+      cartStore.UpdateQuantity(props.menuItem, quantity.value + 1);
+    }
+
+    function DecreaseQuantity(){
+      cartStore.UpdateQuantity(props.menuItem, quantity.value - 1);
+    }
 </script>
