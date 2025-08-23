@@ -48,8 +48,16 @@
         <!-- Categories -->
         <div class="col-lg-auto">
           <div class="d-flex flex-wrap gap-2">
-            <button class="btn rounded px-4 py-2 fs-7 position-relative overflow-hidden">
-              <span class="position-relative z-1">CATEGORY</span>
+            <button 
+             class="btn rounded px-4 py-2 fs-7 position-relative overflow-hidden"
+             v-for="(category, index) in categoryList"
+             :key="index"
+             :class="{
+                'btn-success shadow-sm' : category == selectedCategory,
+                'btn-outline-success' : category != selectedCategory
+             }"
+             >
+              <span class="position-relative z-1">{{ category }}</span>
             </button>
           </div>
         </div>
@@ -106,9 +114,12 @@
     import MenuItemCard from '@/components/MenuItemCard.vue';
     import {ref, onMounted, reactive} from 'vue';
     import menuItemService from '@/services/menuItemService';
-  
+    import { CATEGORIES } from '@/constants/constants';
+    
     const menuItems = reactive([]);
     const isLoading = ref(false);
+    const categoryList = ref(['ALL', ...CATEGORIES]);
+    const selectedCategory = ref('ALL');
 
     async function FetchMenuItems(){
         try {
