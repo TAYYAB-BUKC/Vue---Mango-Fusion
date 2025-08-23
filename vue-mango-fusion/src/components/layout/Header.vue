@@ -37,7 +37,7 @@
             <ul class="navbar-nav ms-auto align-items center small">
                 <li class="nav-item px-2">
                     <router-link class="nav-link px-2 position-relative" :to="{name: APP_ROUTE_NAMES.CART}">
-                        <i class="bi bi-cart3"></i><span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                        <i class="bi bi-cart3"></i><span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger">{{ cartStore.cartCount }}</span>
                     </router-link>
                 </li>
                 <li class="nav-item">
@@ -79,5 +79,8 @@
 <script setup>
     import { APP_ROUTE_NAMES } from '@/constants/routeNames';
     import { useThemeStore } from '@/stores/themeStore';
+    import { useCartStore } from '@/stores/cartStore';
+
     const themeStore = useThemeStore();
+    const cartStore = useCartStore();
 </script>
