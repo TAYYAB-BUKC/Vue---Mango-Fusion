@@ -31,11 +31,32 @@ export const useCartStore = defineStore('CartStore', ()=>{
         cartItems = [];
     }
 
+    function RemoveFromCart(menuItem){
+        const menuItemIndex = cartItems.findIndex((cartMenuItem) => cartMenuItem.id === menuItem.id);
+        if(menuItemIndex !== -1){
+            cartItems.splice(menuItemIndex, 1);
+        }
+    }
+
+    function UpdateQuantity(menuItem, quantity){
+        const cartMenuItem = cartItems.find((cartMenuItem) => cartMenuItem.id === menuItem.id);
+        if(cartMenuItem){
+            if(quantity <= 0){
+                RemoveFromCart(cartMenuItem);
+            }
+            else{
+                cartMenuItem.quantity = quantity;
+            }
+        }
+    }
+
     return {
         cartItems,
         cartCount,
         cartTotal,
         AddToCart,
-        ClearCart
+        ClearCart,
+        RemoveFromCart,
+        UpdateQuantity
     }
 });
