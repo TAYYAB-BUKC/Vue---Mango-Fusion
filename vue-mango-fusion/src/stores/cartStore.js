@@ -20,7 +20,7 @@ export const useCartStore = defineStore('CartStore', ()=>{
             cartItems.push({
                 id: menuItem.id,
                 name: menuItem.name,
-                quantity: menuItem.quantity,
+                quantity: quantity,
                 price: menuItem.price,
                 imageURL: menuItem.imageURL,
             })
