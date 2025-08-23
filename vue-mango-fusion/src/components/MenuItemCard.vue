@@ -17,6 +17,7 @@
             class="btn btn-light btn-sm rounded shadow-sm d-flex align-items-center gap-2 backdrop-blur-sm bg-opacity-75"
             title="View Details"
             style="backdrop-filter: blur(4px)"
+            @click="emit('OpenModal', menuItem)"
           >
             <i class="bi bi-eye text-success"></i>
             <span class="text-success small">Details</span>
@@ -81,4 +82,6 @@
     const props = defineProps({
         menuItem: Object
     });
+
+    const emit = defineEmits(['OpenModal']);
 </script>

@@ -99,6 +99,7 @@
             v-for="(menuItem, index) in filteredItems"
             :key="menuItem.id"
             :menuItem="menuItem"
+            @OpenModal="OpenModal"
             >
           </MenuItemCard>
         </div>
@@ -110,6 +111,7 @@
     </div>
 
     <!-- Menu Detail Modal -->
+     <MenuItemDetailsModal :isShow="IsShowModal" :menuItem="selectedMenuItem" :closeModal="CloseModal"></MenuItemDetailsModal>
   </div>
 </template>
 
@@ -118,6 +120,7 @@
     import {ref, onMounted, reactive, computed} from 'vue';
     import menuItemService from '@/services/menuItemService';
     import { CATEGORIES, SORT_NAME_A_Z, SORT_NAME_Z_A, SORT_OPTIONS, SORT_PRICE_HIGH_LOW, SORT_PRICE_LOW_HIGH } from '@/constants/constants';
+    import MenuItemDetailsModal from '@/components/modals/MenuItemDetailsModal.vue';
     
     const menuItems = reactive([]);
     const isLoading = ref(false);
@@ -125,6 +128,8 @@
     const selectedCategory = ref('ALL');
     const selectedSortOption = ref(SORT_NAME_A_Z);
     const searchTerm = ref('');
+    const IsShowModal = ref(false);
+    const selectedMenuItem = ref(null);
 
     async function FetchMenuItems(){
         try {
@@ -176,4 +181,13 @@
         return tempArray;
     });
 
+    function OpenModal(menuItem){
+        selectedMenuItem.value = menuItem;
+        IsShowModal.value = true;
+    }
+
+    function CloseModal(){
+        selectedMenuItem.value = null;
+        IsShowModal.value = false;
+    }
 </script>

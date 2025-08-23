@@ -9,13 +9,13 @@
     @media (min-width: 577px) {
         .modal-size {
             width: 60%;
-            height: 75%;
+            height: 65%;
         }
     }
 </style>
 
 <template>
-  <div
+  <div v-if="isShow"
     class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-black bg-opacity-50"
     style="z-index: 1050"
   >
@@ -38,6 +38,7 @@
             type="button"
             class="btn-close"
             aria-label="Close menu details"
+            @click="closeModal"
           ></button>
         </div>
 
@@ -48,7 +49,7 @@
             <div class="col-12 col-md-6">
               <div class="position-relative">
                 <img
-                  src=""
+                  :src='`${API_URL}/${menuItem?.imageURL}`'
                   class="rounded-4 w-100 object-fit-cover"
                   style="max-height: 300px; min-height: 200px"
                 />
@@ -56,7 +57,7 @@
                   <span
                     class="badge bg-success rounded-pill px-2 px-sm-3 py-1 py-sm-2 d-flex align-items-center gap-1 fs-6 fs-sm-5"
                   >
-                    $$$
+                    $ {{ menuItem?.price.toFixed(2) }}
                   </span>
                 </div>
               </div>
@@ -71,7 +72,7 @@
                     <i class="bi bi-card-text"></i>
                     Name
                   </div>
-                  <h4 class="fw-bold mb-0 fs-5 fs-sm-4">NAME</h4>
+                  <h4 class="fw-bold mb-0 fs-5 fs-sm-4">{{ menuItem?.name }}</h4>
                 </div>
 
                 <!-- Category -->
@@ -83,12 +84,12 @@
                   <div
                     class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 px-sm-3 py-1 py-sm-2 fs-6 fs-sm-5"
                   >
-                    CATEGORY
+                    {{ menuItem?.category }}
                   </div>
                 </div>
 
                 <!-- Special Tag -->
-                <div>
+                <div v-if="menuItem?.specialTag">
                   <div class="text-secondary small mb-1">
                     <i class="bi bi-star"></i>
                     Special Tag
@@ -96,7 +97,7 @@
                   <div
                     class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-2 px-sm-3 py-1 py-sm-2 fs-6 fs-sm-5"
                   >
-                    TAG
+                    {{ menuItem?.specialTag }}
                   </div>
                 </div>
 
@@ -106,7 +107,7 @@
                     <i class="bi bi-card-text"></i>
                     Description
                   </div>
-                  <p class="mb-0">DESC</p>
+                  <p class="mb-0">{{ menuItem?.description }}</p>
                 </div>
               </div>
             </div>
@@ -118,6 +119,7 @@
           <button
             type="button"
             class="btn btn-outline-secondary rounded-pill px-3 px-sm-4 w-100"
+            @click="closeModal"
           >
             Close
           </button>
@@ -126,3 +128,12 @@
     </div>
   </div>
 </template>
+
+<script setup>
+    import { API_URL } from '@/constants/config';
+    const props = defineProps({
+        isShow: Boolean,
+        menuItem: Object,
+        closeModal: Function
+    });
+</script>
