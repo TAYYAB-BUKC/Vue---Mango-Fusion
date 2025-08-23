@@ -71,12 +71,13 @@
               data-bs-toggle="dropdown"
             >
               <i class="bi bi-sort-down"></i>
-              <span class="fs-7">SORT OPTION</span>
+              <span class="fs-7">{{ selectedSortOption }}</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-end shadow-sm rounded-3">
-              <li>
-                <button class="dropdown-item py-2 px-3 d-flex align-items-center gap-2">
-                  <span class="fs-7 px-3 mx-1">SORT</span>
+              <li v-for="(sortOption, index) in SORT_OPTIONS" :key="index">
+                <button class="dropdown-item py-2 px-3 d-flex align-items-center gap-2" 
+              @click="selectedSortOption = sortOption">
+                  <span class="fs-7 px-3 mx-1">{{ sortOption }}</span>
                 </button>
               </li>
             </ul>
@@ -115,12 +116,13 @@
     import MenuItemCard from '@/components/MenuItemCard.vue';
     import {ref, onMounted, reactive, computed} from 'vue';
     import menuItemService from '@/services/menuItemService';
-    import { CATEGORIES } from '@/constants/constants';
+    import { CATEGORIES, SORT_NAME_A_Z, SORT_NAME_Z_A, SORT_OPTIONS, SORT_PRICE_HIGH_LOW, SORT_PRICE_LOW_HIGH } from '@/constants/constants';
     
     const menuItems = reactive([]);
     const isLoading = ref(false);
     const categoryList = ref(['ALL', ...CATEGORIES]);
     const selectedCategory = ref('ALL');
+    const selectedSortOption = ref(SORT_NAME_A_Z);
 
     async function FetchMenuItems(){
         try {
@@ -147,8 +149,24 @@
         let tempArray = selectedCategory.value === 'ALL' ? [...menuItems] : menuItems.filter((menuItem) => {
             return menuItem.category.toLowerCase() === selectedCategory.value.toLowerCase();
         });
-        console.log('tempArray');
-        console.log(tempArray);
+        
+        // Sorting based on Sort options
+        if(selectedSortOption.value == SORT_NAME_A_Z){
+            tempArray.sort((a, b) => a.name.localeCompare(b.name));
+        }
+
+        if(selectedSortOption.value == SORT_NAME_Z_A){
+            tempArray.sort((a, b) => b.name.localeCompare(a.name));
+        }
+
+        if(selectedSortOption.value == SORT_PRICE_LOW_HIGH){
+            tempArray.sort((a, b) => a.price - b.price);
+        }
+
+        if(selectedSortOption.value == SORT_PRICE_HIGH_LOW){
+            tempArray.sort((a, b) => b.price - a.price);
+        }
+
         return tempArray;
     });
 
