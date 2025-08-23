@@ -39,7 +39,7 @@
 
         <!-- Tags -->
         <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
-          <div class="d-flex align-items-center btn btn-outline-secondary disabled px-2 py-1 small">
+          <div class="d-flex align-items-center btn btn-outline-secondary disabled px-2 py-1 small" v-if="menuItem?.specialTag">
             <i class="bi bi-star"></i>&nbsp;
             <span class="small text-body-secondary"> {{ menuItem?.specialTag }}</span>
           </div>
@@ -56,7 +56,7 @@
             <span class="small"><i class="bi bi-cart-plus"></i> &nbsp; Add to Cart</span>
           </button>
 
-          <div class="input-group input-group-sm w-100">
+          <div class="input-group input-group-sm w-100" v-show="false">
             <button class="btn btn-outline-secondary" type="button">
               <i class="bi bi-dash"></i>
             </button>
