@@ -76,7 +76,7 @@
       </div>
 
       <!-- Content Section -->
-      <div class="text-center py-5">
+      <div class="text-center py-5" v-if="isLoading">
         <div class="spinner-border text-success" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
@@ -86,16 +86,15 @@
           <MenuItemCard 
             class="list-item col-12 col-md-6 col-lg-4 pb-4"
             v-for="(menuItem, index) in menuItems"
-            key="menuItem.id"
+            :key="menuItem.id"
             :menuItem="menuItem"
             >
           </MenuItemCard>
-
-          <div class="text-center py-5 display-4 mx-auto text-body-secondary mb-3 d-block">
+        </div>
+        <div class="text-center py-5 display-4 mx-auto text-body-secondary mb-3 d-block" v-if="menuItems.length == 0">
             <i class="bi bi-emoji-frown"></i>
             <p class="lead text-body-secondary">No menu items found matching your criteria</p>
           </div>
-        </div>
       </div>
     </div>
 
