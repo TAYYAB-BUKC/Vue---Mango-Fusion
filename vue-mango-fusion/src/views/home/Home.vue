@@ -27,7 +27,8 @@
                 style="max-width: 600px"
               >
                 <input
-                  type="text"
+                  type="text"    
+                  v-model="searchTerm"
                   class="form-control border-0 py-3 px-4"
                   placeholder="Search your favorite foods..."
                 />
@@ -123,6 +124,7 @@
     const categoryList = ref(['ALL', ...CATEGORIES]);
     const selectedCategory = ref('ALL');
     const selectedSortOption = ref(SORT_NAME_A_Z);
+    const searchTerm = ref('');
 
     async function FetchMenuItems(){
         try {
@@ -150,6 +152,10 @@
             return menuItem.category.toLowerCase() === selectedCategory.value.toLowerCase();
         });
         
+        if(searchTerm.value){
+            tempArray = tempArray.filter((menuItem) => menuItem.name.toUpperCase().includes(searchTerm.value.toUpperCase()));
+        }
+
         // Sorting based on Sort options
         if(selectedSortOption.value == SORT_NAME_A_Z){
             tempArray.sort((a, b) => a.name.localeCompare(b.name));
