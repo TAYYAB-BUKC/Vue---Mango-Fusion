@@ -83,7 +83,7 @@
       </div>
       <div>
         <div class="row">
-          DISPLAY PRODUCTS
+          <MenuItemCard></MenuItemCard>
 
           <div class="text-center py-5 display-4 mx-auto text-body-secondary mb-3 d-block">
             <i class="bi bi-emoji-frown"></i>
@@ -98,5 +98,5 @@
 </template>
 
 <script setup>
-
+    import MenuItemCard from '@/components/MenuItemCard.vue';
 </script>
