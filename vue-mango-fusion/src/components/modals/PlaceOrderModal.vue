@@ -19,33 +19,33 @@
       <form>
         <div class="mb-3">
           <label for="pickupName" class="form-label">Name</label>
-          <input type="text" class="form-control" id="pickupName" />
+          <input v-model="order.name" type="text" class="form-control" id="pickupName" />
         </div>
 
         <div class="mb-3">
           <label for="pickupPhoneNumber" class="form-label">Phone Number</label>
-          <input type="tel" class="form-control" id="pickupPhoneNumber" />
+          <input v-model="order.phoneNumber" type="tel" class="form-control" id="pickupPhoneNumber" />
         </div>
 
         <div class="mb-4">
           <label for="pickupEmail" class="form-label">Email</label>
-          <input type="email" class="form-control" id="pickupEmail" />
+          <input v-model="order.email" type="email" class="form-control" id="pickupEmail" />
         </div>
 
         <div class="bg-body-tertiary rounded-3 p-3 mb-4">
           <h5 class="fw-bold mb-3">Order Summary</h5>
-          <div>
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="fw-medium">NAME</span>
+          <div v-if="cartStore.cartItems && cartStore.cartItems.length > 0">
+            <div class="d-flex justify-content-between align-items-center mb-2" v-for="menuItem in cartStore.cartItems" :key="menuItem.id">
+              <span class="fw-medium">{{ menuItem?.name }}</span>
               <div class="d-flex align-items-center gap-3">
-                <span class="text-body-secondary">quantity x</span>
-                <span class="fw-medium">$ </span>
+                <span class="text-body-secondary">{{ menuItem?.quantity }} x</span>
+                <span class="fw-medium">$ {{ menuItem?.price.toFixed(2) }}</span>
               </div>
             </div>
             <div class="border-top pt-3 mt-3">
               <div class="d-flex justify-content-between align-items-center">
                 <span class="fw-bold">Total</span>
-                <span class="fw-bold fs-5">$</span>
+                <span class="fw-bold fs-5">$ {{ cartStore.cartTotal.toFixed(2) }}</span>
               </div>
             </div>
           </div>
@@ -53,14 +53,14 @@
 
         <div class="d-flex justify-content-end gap-2">
           <button type="button" class="btn btn-outline-secondary px-4" @click="emit('CloseModal')">Cancel</button>
-          <button type="submit" class="btn btn-success px-4">
-            <span class="d-flex align-items-center gap-2">
+          <button type="submit" class="btn btn-success px-4" :disabled="!cartStore.cartItems || cartStore.cartItems.length === 0">
+            <span class="d-flex align-items-center gap-2" v-if="isProcessing">
               <div class="spinner-border spinner-border-sm" role="status">
                 <span class="visually-hidden">Loading...</span>
               </div>
               Processing...
             </span>
-            <span>Place Order</span>
+            <span v-else>Place Order</span>
           </button>
         </div>
       </form>
@@ -69,10 +69,32 @@
 </template>
 
 <script setup>
+    import { useCartStore } from '@/stores/cartStore';
+    import { ref, reactive } from 'vue';
+
     const props = defineProps({
         isModalOpen: Boolean,
         CloseModal: Function
     });
 
     const emit = defineEmits(['CloseModal']);
+
+    const cartStore = useCartStore();
+    const isProcessing = ref(false);
+    const order = reactive({
+        name: "",
+        email: "",
+        phoneNumber: "",
+        applicationUserId: "",
+        orderTotal: 0,
+        orderItems: 0,
+        details: [
+            // {
+            // "menuItemId": 1,
+            // "itemName": "",
+            // "quantity": 1,
+            // "price": 1
+            // }
+        ]
+    });
 </script>
