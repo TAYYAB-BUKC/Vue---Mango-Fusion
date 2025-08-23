@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12">
         <h2 class="mb-4 text-success">Your Cart</h2>
-        <div class="text-center py-5">
+        <div class="text-center py-5" v-if="cartStore.cartCount === 0">
           <div class="mb-4">
             <i class="bi bi-cart" style="font-size: 2rem"></i>
           </div>
@@ -17,7 +17,7 @@
           </button>
         </div>
 
-        <div >
+        <div v-else>
           <div class="card border-0 shadow-sm mb-4">
             <div class="card-body p-0">
               <div class="table-responsive">
@@ -30,18 +30,18 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr >
+                    <tr v-for="menuItem in cartStore.cartItems" :key="menuItem.id">
                       <td class="ps-4">
                         <div class="d-flex align-items-center gap-3">
                           <img
-                            src="https://placehold.co/50x50"
+                            :src="`${API_URL}/${menuItem?.imageURL}`"
                             class="img-fluid rounded d-none d-md-block"
                             style="width: 50px; height: 50px; object-fit: cover"
                           />
-                          <span class="fw-medium">NAME</span>
+                          <span class="fw-medium">{{ menuItem?.name }}</span>
                         </div>
                       </td>
-                      <td class="text-center align-middle">$$$</td>
+                      <td class="text-center align-middle">$ {{ menuItem?.price.toFixed(2) }}</td>
                       <td class="align-middle">
                         <div class="input-group input-group-sm justify-content-center" style="">
                           <button
@@ -94,13 +94,13 @@
                 <div class="card-body">
                   <h4 class="card-title h6 mb-3">Order Summary</h4>
                   <div class="d-flex justify-content-between mb-2">
-                    <span class="text-body-secondary">Items (0):</span>
-                    <span>$$$</span>
+                    <span class="text-body-secondary">Items:</span>
+                    <span>{{ cartStore.cartCount }}</span>
                   </div>
                   <hr />
                   <div class="d-flex justify-content-between mb-3">
                     <span class="fw-bold">Total:</span>
-                    <span class="fw-bold text-success">$$$</span>
+                    <span class="fw-bold text-success">$ {{ cartStore.cartTotal.toFixed(2) }}</span>
                   </div>
                   <button class="btn btn-success w-100">
                     <i class="bi bi-cash-stack"></i>
@@ -118,3 +118,10 @@
     </div>
   </div>
 </template>
+
+<script setup>
+    import { useCartStore } from '@/stores/cartStore';
+    import { API_URL } from '@/constants/config';
+
+    const cartStore = useCartStore();
+</script>
