@@ -3,9 +3,9 @@
 </style>
 
 <template>
-     <div class="col-12 col-sm-6 col-lg-4">
+  <div class="col-12 col-sm-6 col-lg-4">
     <div class="card h-100 border-0 shadow-sm rounded-4">
-        <div class="position-relative">
+      <div class="position-relative">
         <img
           :src="`${API_URL}/${menuItem?.imageURL}`"
           class="card-img-top rounded-top-4 w-100 object-fit-cover"
@@ -52,12 +52,12 @@
 
         <!-- Cart Controls -->
         <div class="d-flex align-items-center justify-content-between">
-          <button class="btn btn-success w-100 rounded py-2" @click="AddToCart">
+          <button class="btn btn-success w-100 rounded py-2" @click="AddToCart" v-if="!isInCart">
             <span v-if="isProcessing" class="spinner-border spinner-border-sm me-2"></span>
             <span class="small"><i class="bi bi-cart-plus"></i> &nbsp; Add to Cart</span>
           </button>
 
-          <div class="input-group input-group-sm w-100" v-show="false">
+          <div class="input-group input-group-sm w-100" v-else>
             <button class="btn btn-outline-secondary" type="button">
               <i class="bi bi-dash"></i>
             </button>
@@ -66,6 +66,7 @@
               class="form-control text-center px-2"
               readonly
               style="max-width: 50px"
+              :value="quantity"
             />
             <button class="btn btn-outline-secondary" type="button">
               <i class="bi bi-plus"></i>
@@ -91,7 +92,13 @@
 
     const cartStore = useCartStore();
 
+    const cartItem = computed(() => {
+        return cartStore.cartItems.find((cartMenuItem) => cartMenuItem.id === props.menuItem?.id);
+    });
+    const isInCart = computed(() => !!cartItem.value);
+    const quantity = computed(() => cartItem.value?.quantity);
+
     function AddToCart(){
         cartStore.AddToCart(props.menuItem);
-    }
+}
 </script>
