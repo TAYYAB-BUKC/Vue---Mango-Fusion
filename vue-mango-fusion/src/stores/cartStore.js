@@ -61,4 +61,7 @@ export const useCartStore = defineStore('CartStore', ()=>{
         RemoveFromCart,
         UpdateQuantity
     }
+}, 
+{
+    persist: true
 });
