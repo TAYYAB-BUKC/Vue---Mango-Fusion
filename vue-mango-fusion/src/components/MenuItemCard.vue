@@ -52,8 +52,8 @@
 
         <!-- Cart Controls -->
         <div class="d-flex align-items-center justify-content-between">
-          <button class="btn btn-success w-100 rounded py-2">
-            <span class="spinner-border spinner-border-sm me-2"></span>
+          <button class="btn btn-success w-100 rounded py-2" @click="AddToCart">
+            <span v-if="isProcessing" class="spinner-border spinner-border-sm me-2"></span>
             <span class="small"><i class="bi bi-cart-plus"></i> &nbsp; Add to Cart</span>
           </button>
 
@@ -79,9 +79,19 @@
 
 <script setup>
     import { API_URL } from '@/constants/config';
+    import { useCartStore } from '@/stores/cartStore';
+    import { ref } from 'vue';
+
     const props = defineProps({
         menuItem: Object
     });
+    const isProcessing = ref(false);
 
     const emit = defineEmits(['OpenModal']);
+
+    const cartStore = useCartStore();
+
+    function AddToCart(){
+        cartStore.AddToCart(props.menuItem);
+    }
 </script>
