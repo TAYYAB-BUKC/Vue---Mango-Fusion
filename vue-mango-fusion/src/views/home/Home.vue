@@ -56,6 +56,7 @@
                 'btn-success shadow-sm' : category == selectedCategory,
                 'btn-outline-success' : category != selectedCategory
              }"
+             @click="selectedCategory = category"
              >
               <span class="position-relative z-1">{{ category }}</span>
             </button>
@@ -90,16 +91,16 @@
         </div>
       </div>
       <div>
-        <div class="row" v-if="menuItems.length && menuItems.length > 0">
+        <div class="row" v-if="filteredItems.length && filteredItems.length > 0">
           <MenuItemCard 
             class="list-item col-12 col-md-6 col-lg-4 pb-4"
-            v-for="(menuItem, index) in menuItems"
+            v-for="(menuItem, index) in filteredItems"
             :key="menuItem.id"
             :menuItem="menuItem"
             >
           </MenuItemCard>
         </div>
-        <div class="text-center py-5 display-4 mx-auto text-body-secondary mb-3 d-block" v-if="menuItems.length == 0">
+        <div class="text-center py-5 display-4 mx-auto text-body-secondary mb-3 d-block" v-if="filteredItems.length == 0">
             <i class="bi bi-emoji-frown"></i>
             <p class="lead text-body-secondary">No menu items found matching your criteria</p>
           </div>
@@ -112,7 +113,7 @@
 
 <script setup>
     import MenuItemCard from '@/components/MenuItemCard.vue';
-    import {ref, onMounted, reactive} from 'vue';
+    import {ref, onMounted, reactive, computed} from 'vue';
     import menuItemService from '@/services/menuItemService';
     import { CATEGORIES } from '@/constants/constants';
     
@@ -141,4 +142,14 @@
     onMounted(()=>{
         FetchMenuItems();
     });
+
+    const filteredItems = computed(()=>{
+        let tempArray = selectedCategory.value === 'ALL' ? [...menuItems] : menuItems.filter((menuItem) => {
+            return menuItem.category.toLowerCase() === selectedCategory.value.toLowerCase();
+        });
+        console.log('tempArray');
+        console.log(tempArray);
+        return tempArray;
+    });
+
 </script>
