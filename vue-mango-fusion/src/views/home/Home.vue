@@ -82,8 +82,14 @@
         </div>
       </div>
       <div>
-        <div class="row">
-          <MenuItemCard></MenuItemCard>
+        <div class="row" v-if="menuItems.length && menuItems.length > 0">
+          <MenuItemCard 
+            class="list-item col-12 col-md-6 col-lg-4 pb-4"
+            v-for="(menuItem, index) in menuItems"
+            key="menuItem.id"
+            :menuItem="menuItem"
+            >
+          </MenuItemCard>
 
           <div class="text-center py-5 display-4 mx-auto text-body-secondary mb-3 d-block">
             <i class="bi bi-emoji-frown"></i>
@@ -99,4 +105,30 @@
 
 <script setup>
     import MenuItemCard from '@/components/MenuItemCard.vue';
+    import {ref, onMounted, reactive} from 'vue';
+    import menuItemService from '@/services/menuItemService';
+  
+    const menuItems = reactive([]);
+    const isLoading = ref(false);
+
+    async function FetchMenuItems(){
+        try {
+            isLoading.value = true;
+            var data = await menuItemService.GetMenuItems();
+            if(data){
+                menuItems.length = 0;
+                menuItems.push(...data);
+            }
+            console.log(menuItems);
+        } catch (error) {
+            console.error(error);
+        }
+        finally{
+            isLoading.value = false;
+        }
+    }
+
+    onMounted(()=>{
+        FetchMenuItems();
+    });
 </script>
