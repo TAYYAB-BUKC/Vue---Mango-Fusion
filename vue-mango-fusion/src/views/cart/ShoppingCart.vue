@@ -106,7 +106,7 @@
                     <span class="fw-bold">Total:</span>
                     <span class="fw-bold text-success">$ {{ cartStore.cartTotal.toFixed(2) }}</span>
                   </div>
-                  <button class="btn btn-success w-100">
+                  <button class="btn btn-success w-100" @click="ProceedToCheckout">
                     <i class="bi bi-cash-stack"></i>
                     Proceed to Checkout
                   </button>
@@ -120,6 +120,7 @@
         </div>
       </div>
     </div>
+    <PlaceOrderModal :isModalOpen="isModalOpen" @CloseModal="CloseModal"></PlaceOrderModal>
   </div>
 </template>
 
@@ -128,9 +129,14 @@
     import { API_URL } from '@/constants/config';
     import { useRouter } from 'vue-router';
     import { APP_ROUTE_NAMES } from '@/constants/routeNames';
+    import PlaceOrderModal from '@/components/modals/PlaceOrderModal.vue';
+    import { useSweetAlert } from '@/composibles/useSweetAlert';
+    import { ref } from 'vue';
 
     const cartStore = useCartStore();
     const router = useRouter();
+    const { showSuccess, showError } = useSweetAlert();
+    const isModalOpen = ref(false);
 
     function IncreaseQuantity(menuItem){
       cartStore.UpdateQuantity(menuItem, menuItem.quantity + 1);
@@ -142,5 +148,18 @@
     
     function HandleContinueShopping(){
         router.push({ name: APP_ROUTE_NAMES.HOME });
+    }
+
+    function ProceedToCheckout(){
+        if(cartStore.cartItems === 0){
+            showError('Cart is empty.');
+            return;
+        }
+        
+        isModalOpen.value = true;
+    }
+
+    function CloseModal(){
+        isModalOpen.value = false;
     }
 </script>
