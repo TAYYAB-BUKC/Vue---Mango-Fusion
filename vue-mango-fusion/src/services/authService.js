@@ -27,9 +27,20 @@ export default {
         try {
             const response = await api.post('/api/auth/login', formData);
             if(response.data.isSuccess){
+                let { token } = response.data.data;
+                
+                let payload = JSON.parse(atob(token.split('.')[1]));
+                console.log(payload);
                 return {
                     isSuccess: true,
-                    message: 'Login is successful!'
+                    message: 'Login is successful!',
+                    data: {
+                        id: payload.nameid,
+                        name: payload.unique_name,
+                        username: payload.email,
+                        role: payload.role,
+                        token: token
+                    }
                 }
             }
             else{
