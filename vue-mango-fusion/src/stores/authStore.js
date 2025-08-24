@@ -93,6 +93,11 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
         user.isAuthenticated = false;
     }
 
+    function Logout(){
+        ResetAuth();
+        router.push({ name: APP_ROUTE_NAMES.SIGN_IN });
+    }
+
     return {
         user,
         isAuthenticated,
@@ -100,6 +105,7 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
         Register,
         Login,
         Initialize,
-        ResetAuth
+        ResetAuth,
+        Logout
     }
 });
