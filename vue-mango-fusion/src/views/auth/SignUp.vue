@@ -53,6 +53,7 @@
     import { ROLE_CUSTOMER, ROLES } from '@/constants/constants';
     import { APP_ROUTE_NAMES } from '@/constants/routeNames';
     import { ref, reactive } from 'vue';
+    import { useAuthStore } from '@/stores/authStore';
 
     const isLoading = ref(false);
     let errorList = reactive([]);
@@ -61,13 +62,14 @@
         username: "",
         password: "",
         role: ROLE_CUSTOMER
-    });
+    }); 
+    const authStore = useAuthStore();
 
     async function OnSignUpSubmit(){
 
         isLoading.value = true;
         errorList = [];
-        
+
         if(formData.name.length === 0 || formData.name == undefined){
             errorList.push('Name is required');
         }
@@ -86,7 +88,22 @@
         }
 
         try {
-            
+            const response = await authStore.Register(formData);
+            if(response.isSuccess){
+                console.log('Success');
+            }
+            else{
+                console.log('Failed');
+                if(response.message.length > 1){
+                    response.message.forEach(error => {
+                        errorList.push(error);
+                    });
+                }
+                else{
+                    errorList.push(response.message);
+                }
+            }
+            console.log(response);
         } catch (error) {
             console.error(error);
             errorList.push(error.message);

@@ -13,13 +13,13 @@ export default {
             else{
                 return {
                     isSuccess: false,
-                    message: 'Registration failed!'
+                    message: response.data.errorMessages
                 }
             }
         } catch (error) {
             return {
                 isSuccess: false,
-                message: error.message
+                message: error.response.data.errors || error.response.data.errorMessages
             }
         }
     }

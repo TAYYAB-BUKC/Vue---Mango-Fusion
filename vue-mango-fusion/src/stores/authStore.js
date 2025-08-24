@@ -1,6 +1,6 @@
 import authService from "@/services/authService";
 import { defineStore } from "pinia";
-import { ref, reactive } from "vue";
+import { ref, reactive, computed } from "vue";
 
 export const useAuthStore = defineStore('AuthStore', ()=>{
 
@@ -27,7 +27,7 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
             console.error(error);
             return {
                 isSuccess: false,
-                message: error.response.data.errorMessages?.join(', \n') || 'Registration failed'
+                message: error.response.data.errorMessage
             }
         }
     }
