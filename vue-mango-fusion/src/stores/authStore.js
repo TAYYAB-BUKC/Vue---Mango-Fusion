@@ -60,11 +60,50 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
         }
     }
 
+    function Initialize(){
+        try {
+            const token = Cookies.get('token_mango');
+            if(token){
+                let payload = JSON.parse(atob(token.split('.')[1]));
+                console.log(payload);
+                Object.assign(user, {
+                    id: payload.nameid,
+                    name: payload.unique_name,
+                    username: payload.email,
+                    role: payload.role,
+                    token: token
+                });
+                isAuthenticated.value = true;
+            }
+            else{
+                ResetAuth();
+            }
+        } catch (error) {
+            console.error(error);
+            ResetAuth();
+        }
+    }
+
+    function ResetAuth(){
+        Cookies.remove('token_mango');
+        Object.assign(user, {
+            id: '',
+            name: '',
+            username: '',
+            password: '',
+            role: '',
+            isLoggedIn: false
+        });
+        user.isAuthenticated = false;
+    }
+
     return {
         user,
         isAuthenticated,
         getUserInfo,
         Register,
-        Login
+        Login,
+        Initialize,
+        ResetAuth
     }
 });
