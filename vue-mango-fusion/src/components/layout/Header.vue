@@ -51,7 +51,7 @@
                     </router-link>
                 </li>
                 <li class="nav-item" v-if="authStore.isAuthenticated">
-                    <button class="nav-link px-2">
+                    <button class="nav-link px-2" @click="authStore.Logout">
                         Logout
                     </button>
                 </li>

@@ -90,7 +90,7 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
             username: '',
             role: '',
         });
-        user.isAuthenticated = false;
+        isAuthenticated.value = false;
     }
 
     function Logout(){
