@@ -4,7 +4,7 @@ import { ref, reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 import { APP_ROUTE_NAMES } from "@/constants/routeNames";
 import Cookies from "js-cookie";
-import { TOKEN_COOKIE_NAME } from "@/constants/constants";
+import { ROLE_ADMIN, TOKEN_COOKIE_NAME } from "@/constants/constants";
 
 export const useAuthStore = defineStore('AuthStore', ()=>{
 
@@ -20,6 +20,10 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
 
     const getUserInfo = computed(()=>{
         return user
+    });
+
+    const isAdmin = computed(()=>{
+        return isAuthenticated && user.role === ROLE_ADMIN;
     });
 
     async function Register(formData){
@@ -106,6 +110,7 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
         Login,
         Initialize,
         ResetAuth,
-        Logout
+        Logout,
+        isAdmin
     }
 });
