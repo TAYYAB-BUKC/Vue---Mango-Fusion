@@ -4,6 +4,7 @@ import { ref, reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 import { APP_ROUTE_NAMES } from "@/constants/routeNames";
 import Cookies from "js-cookie";
+import { TOKEN_COOKIE_NAME } from "@/constants/constants";
 
 export const useAuthStore = defineStore('AuthStore', ()=>{
 
@@ -11,9 +12,7 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
         id: '',
         name: '',
         username: '',
-        password: '',
         role: '',
-        isLoggedIn: false
     });
 
     const isAuthenticated = ref(false);
@@ -42,11 +41,10 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
             if(response.isSuccess){
                 let data = response.data;
                 Object.assign(user, data);
-                user.isLoggedIn = true;
                 isAuthenticated.value = true;
                 console.log(user);
                 
-                Cookies.set('token_mango', data.token, { expires: 7 }); // 7 Days of Expiration
+                Cookies.set(TOKEN_COOKIE_NAME, data.token, { expires: 7 }); // 7 Days of Expiration
                 
                 router.push({name: APP_ROUTE_NAMES.HOME});
             }
@@ -62,7 +60,7 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
 
     function Initialize(){
         try {
-            const token = Cookies.get('token_mango');
+            const token = Cookies.get(TOKEN_COOKIE_NAME);
             if(token){
                 let payload = JSON.parse(atob(token.split('.')[1]));
                 console.log(payload);
@@ -85,14 +83,12 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
     }
 
     function ResetAuth(){
-        Cookies.remove('token_mango');
+        Cookies.remove(TOKEN_COOKIE_NAME);
         Object.assign(user, {
             id: '',
             name: '',
             username: '',
-            password: '',
             role: '',
-            isLoggedIn: false
         });
         user.isAuthenticated = false;
     }

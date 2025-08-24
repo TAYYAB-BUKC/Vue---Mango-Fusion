@@ -11,3 +11,5 @@ export const ROLE_ADMIN = 'Admin';
 export const ROLE_CUSTOMER = 'Customer';
 
 export const ROLES = [ROLE_ADMIN, ROLE_CUSTOMER];
+
+export const TOKEN_COOKIE_NAME = 'token_mango';
