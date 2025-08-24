@@ -116,7 +116,7 @@
 </template>
 
 <script setup>
-    import MenuItemCard from '@/components/MenuItemCard.vue';
+    import MenuItemCard from '@/components/card/MenuItemCard.vue';
     import {ref, onMounted, reactive, computed} from 'vue';
     import menuItemService from '@/services/menuItemService';
     import { CATEGORIES, SORT_NAME_A_Z, SORT_NAME_Z_A, SORT_OPTIONS, SORT_PRICE_HIGH_LOW, SORT_PRICE_LOW_HIGH } from '@/constants/constants';
