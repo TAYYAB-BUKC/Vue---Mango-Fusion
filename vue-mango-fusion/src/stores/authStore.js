@@ -1,6 +1,8 @@
 import authService from "@/services/authService";
 import { defineStore } from "pinia";
 import { ref, reactive, computed } from "vue";
+import { useRouter } from "vue-router";
+import { APP_ROUTE_NAMES } from "@/constants/routeNames";
 
 export const useAuthStore = defineStore('AuthStore', ()=>{
 
@@ -14,6 +16,7 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
     });
 
     const isAuthenticated = ref(false);
+    const router = useRouter();
 
     const getUserInfo = computed(()=>{
         return user
@@ -41,6 +44,7 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
                 user.isLoggedIn = true;
                 isAuthenticated.value = true;
                 console.log(user);
+                router.push({name: APP_ROUTE_NAMES.HOME});
             }
             return response;
         } catch (error) {
