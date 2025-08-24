@@ -6,27 +6,27 @@
             <div class="card-body p-4">
                 <h2 class="text-center mb-4">Sign Up</h2>
 
-                <form>
+                <form @submit.prevent="OnSignUpSubmit">
                     <div class="mb-3">
                         <label for="name" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="name" />
+                        <input type="text" class="form-control" id="name" v-model.trim="formData.name"/>
                     </div>
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" />
+                        <input type="email" class="form-control" id="email" v-model.trim="formData.username"/>
                     </div>
 
                     <div class="mb-3">
                         <label for="role" class="form-label">Role</label>
-                        <select class="form-select" id="role">
+                        <select class="form-select" id="role" v-model.trim="formData.role">
                             <option v-for="role in ROLES" :key="role">{{ role }}</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" />
+                        <input type="password" class="form-control" id="password" v-model.trim="formData.password"/>
                     </div>
 
                     <div class="alert alert-danger" v-if="errorList.length > 0">
@@ -50,10 +50,49 @@
 </template>
 
 <script setup>
-    import { ROLES } from '@/constants/constants';
+    import { ROLE_CUSTOMER, ROLES } from '@/constants/constants';
     import { APP_ROUTE_NAMES } from '@/constants/routeNames';
     import { ref, reactive } from 'vue';
 
     const isLoading = ref(false);
-    const errorList = reactive([]);
+    let errorList = reactive([]);
+    const formData = reactive({
+        name: "",
+        username: "",
+        password: "",
+        role: ROLE_CUSTOMER
+    });
+
+    async function OnSignUpSubmit(){
+
+        isLoading.value = true;
+        errorList = [];
+        
+        if(formData.name.length === 0 || formData.name == undefined){
+            errorList.push('Name is required');
+        }
+
+        if(formData.username.length === 0 || formData.username == undefined){
+            errorList.push('Email is required');
+        }
+
+        if(formData.password.length === 0 || formData.password == undefined){
+            errorList.push('Password is required');
+        }
+
+        if(errorList.length > 0){
+            isLoading.value = false;
+            return;
+        }
+
+        try {
+            
+        } catch (error) {
+            console.error(error);
+            errorList.push(error.message);
+        }
+        finally{
+            isLoading.value = false;
+        }
+    }
 </script>
