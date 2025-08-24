@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import { ref, reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 import { APP_ROUTE_NAMES } from "@/constants/routeNames";
+import Cookies from "js-cookie";
 
 export const useAuthStore = defineStore('AuthStore', ()=>{
 
@@ -44,6 +45,9 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
                 user.isLoggedIn = true;
                 isAuthenticated.value = true;
                 console.log(user);
+                
+                Cookies.set('token_mango', data.token, { expires: 7 }); // 7 Days of Expiration
+                
                 router.push({name: APP_ROUTE_NAMES.HOME});
             }
             return response;
