@@ -11,6 +11,7 @@ import OrderConfirmation from '@/views/order/OrderConfirmation.vue';
 import NotFound from '@/views/auth/NotFound.vue';
 import NoAccess from '@/views/auth/NoAccess.vue';
 import { APP_ROUTE_NAMES } from '@/constants/routeNames';
+import { requireAdmin, requireAuth } from './navigationGuards';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,10 +20,10 @@ const router = createRouter({
     { path: '/sign-up', name: APP_ROUTE_NAMES.SIGN_UP, component: SignUp },
     { path: '/sign-in', name: APP_ROUTE_NAMES.SIGN_IN, component: SignIn },
     { path: '/home', redirect: { name: APP_ROUTE_NAMES.HOME } },
-    { path: '/cart', name: APP_ROUTE_NAMES.CART, component: ShoppingCart },
-    { path: '/admin/manage-menu-items', name: APP_ROUTE_NAMES.MENU_ITEM_LIST, component: MenuItemList },
-    { path: '/admin/manage-menu-items/create', name: APP_ROUTE_NAMES.CREATE_MENU_ITEM, component: MenuItemUpsert },
-    { path: '/admin/manage-menu-items/update/:id', name: APP_ROUTE_NAMES.EDIT_MENU_ITEM, component: MenuItemUpsert, props: true },
+    { path: '/cart', name: APP_ROUTE_NAMES.CART, component: ShoppingCart, beforeEnter: [requireAuth] },
+    { path: '/admin/manage-menu-items', name: APP_ROUTE_NAMES.MENU_ITEM_LIST, component: MenuItemList, beforeEnter: [requireAdmin] },
+    { path: '/admin/manage-menu-items/create', name: APP_ROUTE_NAMES.CREATE_MENU_ITEM, component: MenuItemUpsert, beforeEnter: [requireAdmin] },
+    { path: '/admin/manage-menu-items/update/:id', name: APP_ROUTE_NAMES.EDIT_MENU_ITEM, component: MenuItemUpsert, props: true, beforeEnter: [requireAdmin] },
     { path: '/orders-list', name: APP_ROUTE_NAMES.ORDER_LIST, component: OrderList },
     { path: '/admin/manage-orders', name: APP_ROUTE_NAMES.MANAGE_ORDER_ADMIN, component: ManageOrder },
     { path: '/order-confirmation/:id', name: APP_ROUTE_NAMES.ORDER_CONFIRM, component: OrderConfirmation, props: true },
