@@ -70,7 +70,8 @@
 
 <script setup>
     import { useCartStore } from '@/stores/cartStore';
-    import { ref, reactive } from 'vue';
+    import { ref, reactive, onMounted } from 'vue';
+    import { useAuthStore } from '@/stores/authStore';
 
     const props = defineProps({
         isModalOpen: Boolean,
@@ -98,12 +99,13 @@
         ]
     });
     const errorList = reactive([]);
+    const authStore = useAuthStore();
 
     async function PlaceOrder(){
         try {
             isProcessing.value = true;
             errorList.length = 0;
-            
+
             if(order.name.length === 0 || order.name == undefined){
                 errorList.push('Name is required.');
             }
@@ -130,4 +132,13 @@
             isProcessing.value = false;
         }
     }
+
+    onMounted(() => {
+        if(authStore.isAuthenticated){
+            const user = authStore.getUserInfo;
+            order.applicationUserId = user.id;
+            order.email = user.username;
+            order.name = user.name;
+        }
+    });
 </script>
