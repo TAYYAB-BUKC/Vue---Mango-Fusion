@@ -40,6 +40,7 @@
 <script setup>
     import { APP_ROUTE_NAMES } from '@/constants/routeNames';
     import { ref, reactive } from 'vue';
+    import { useAuthStore } from '@/stores/authStore';
 
     const isLoading = ref(false);
     let errorList = reactive([]);
@@ -47,7 +48,8 @@
         username: "",
         password: ""
     });
-
+    const authStore = useAuthStore();
+    
     async function OnSignInSubmit(){
 
         isLoading.value = true;
@@ -67,7 +69,22 @@
         }
 
         try {
-            
+            const response = await authStore.Login(formData);
+            if(response.isSuccess){
+                console.log('Success');
+            }
+            else{
+                console.log('Failed');
+                if(response.message.length > 1){
+                    response.message.forEach(error => {
+                        errorList.push(error);
+                    });
+                }
+                else{
+                    errorList.push(response.message);
+                }
+            }
+            console.log(response);
         } catch (error) {
             console.error(error);
             errorList.push(error.message);
