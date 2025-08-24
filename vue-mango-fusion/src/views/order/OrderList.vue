@@ -34,9 +34,32 @@
 
 <script setup>
     import OrderListCard from '@/components/card/OrderListCard.vue';
-    import { ref, reactive } from 'vue';
+    import { ref, reactive, onMounted } from 'vue';
     import { APP_ROUTE_NAMES } from '@/constants/routeNames';
+    import orderService from '@/services/orderService';
+    import { useAuthStore } from '@/stores/authStore';
+    import { useSweetAlert } from '@/composibles/useSweetAlert';
 
     const isLoading = ref(false);
     const orders = reactive([]);
+    const authStore = useAuthStore();
+    const { showError } = useSweetAlert();
+
+    onMounted(async () => {
+        await FetchOrders();
+    });
+
+    async function FetchOrders(){
+        isLoading.value = true;
+        try {
+            const response = await orderService.GetOrders(authStore.user.id);
+            orders.push(...response); 
+        } catch (error) {
+            console.error(error);
+            showError(error.message);
+        }
+        finally{
+            isLoading.value = false;
+        }
+    }
 </script>
