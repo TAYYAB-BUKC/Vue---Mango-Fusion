@@ -40,19 +40,19 @@
                         <i class="bi bi-cart3"></i><span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger">{{ cartStore.cartCount }}</span>
                     </router-link>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="!authStore.isAuthenticated">
                     <router-link class="nav-link" :to="{name: APP_ROUTE_NAMES.SIGN_UP}">
                         Register
                     </router-link>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="!authStore.isAuthenticated">
                     <router-link class="nav-link" :to="{name: APP_ROUTE_NAMES.SIGN_IN}">
-                        Log In
+                        Login
                     </router-link>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="authStore.isAuthenticated">
                     <button class="nav-link px-2">
-                        Log Out
+                        Logout
                     </button>
                 </li>
 
@@ -80,7 +80,9 @@
     import { APP_ROUTE_NAMES } from '@/constants/routeNames';
     import { useThemeStore } from '@/stores/themeStore';
     import { useCartStore } from '@/stores/cartStore';
+    import { useAuthStore } from '@/stores/authStore';
 
     const themeStore = useThemeStore();
     const cartStore = useCartStore();
+    const authStore = useAuthStore();
 </script>
