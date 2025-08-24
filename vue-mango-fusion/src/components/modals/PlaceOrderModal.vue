@@ -72,6 +72,10 @@
     import { useCartStore } from '@/stores/cartStore';
     import { ref, reactive, onMounted } from 'vue';
     import { useAuthStore } from '@/stores/authStore';
+    import orderService from '@/services/orderService';
+    import { APP_ROUTE_NAMES } from '@/constants/routeNames';
+    import { useSweetAlert } from '@/composibles/useSweetAlert';
+    import { useRouter } from 'vue-router';
 
     const props = defineProps({
         isModalOpen: Boolean,
@@ -100,6 +104,8 @@
     });
     const errorList = reactive([]);
     const authStore = useAuthStore();
+    const router = useRouter();
+    const { showSuccess, showError } = useSweetAlert();
 
     async function PlaceOrder(){
         try {
@@ -135,9 +141,23 @@
 
             console.log(order);
 
+            const response = await orderService.CreateOrder(order);
+            console.log(response);
+
+            if(response.id && response.id > 0){
+                showSuccess('Order placed successfully!');
+                router.push({
+                    name: APP_ROUTE_NAMES.ORDER_CONFIRM,
+                    params: { id: response.id }
+                });
+            }
+            else{
+                showError('Something went wrong while creating the order!');
+            }
         } catch (error) {
             console.error(error.message);
             errorList.push(error.message);
+            showError('Something went wrong while creating the order!');
         }
         finally{
             isProcessing.value = false;
