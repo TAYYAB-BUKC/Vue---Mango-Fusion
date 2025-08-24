@@ -22,5 +22,27 @@ export default {
                 message: error.response.data.errors || error.response.data.errorMessages
             }
         }
+    },
+    async Login(formData){
+        try {
+            const response = await api.post('/api/auth/login', formData);
+            if(response.data.isSuccess){
+                return {
+                    isSuccess: true,
+                    message: 'Login is successful!'
+                }
+            }
+            else{
+                return {
+                    isSuccess: false,
+                    message: response.data.errorMessages
+                }
+            }
+        } catch (error) {
+            return {
+                isSuccess: false,
+                message: error.response.data.errors || error.response.data.errorMessages
+            }
+        }
     }
 }

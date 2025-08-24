@@ -32,10 +32,24 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
         }
     }
 
+    async function Login(formData){
+        try {
+            const response = await authService.Login(formData);
+            return response;
+        } catch (error) {
+            console.error(error);
+            return {
+                isSuccess: false,
+                message: error.response.data.errorMessage
+            }
+        }
+    }
+
     return {
         user,
         isAuthenticated,
         getUserInfo,
         Register,
+        Login
     }
 });
