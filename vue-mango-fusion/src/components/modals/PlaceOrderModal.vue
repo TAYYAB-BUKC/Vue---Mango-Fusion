@@ -119,11 +119,22 @@
             }
 
             if(errorList.length > 0){
-                
+                isProcessing.value = false;
+                return;    
             }
-            else{
-                // Place Order
-            }
+            // Place Order
+            
+            order.orderItems = cartStore.cartCount;
+            order.orderTotal = cartStore.cartTotal;
+            order.details = cartStore.cartItems.map((cartItem) => ({
+                menuItemId: cartItem.id,
+                itemName: cartItem.name,
+                quantity: cartItem.quantity,
+                price: cartItem.price
+            }));
+
+            console.log(order);
+
         } catch (error) {
             console.error(error.message);
             errorList.push(error.message);
