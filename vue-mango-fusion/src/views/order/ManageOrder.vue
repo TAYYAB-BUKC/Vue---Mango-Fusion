@@ -143,3 +143,31 @@
     <!-- Order Details Modal Component -->
   </div>
 </template>
+
+<script setup>
+    import { ref, onMounted, reactive } from 'vue';
+    import orderService from '@/services/orderService';
+    import { useSweetAlert } from '@/composibles/useSweetAlert';
+    const { showError } = useSweetAlert();
+
+    const isLoading = ref(false);
+    const orders = reactive([]);
+
+    onMounted(async () => {
+        await FetchOrders();
+    });
+
+    async function FetchOrders(){
+        isLoading.value = true;
+        try {
+            const response = await orderService.GetOrders();
+            orders.push(...response); 
+        } catch (error) {
+            console.error(error);
+            showError(error.message);
+        }
+        finally{
+            isLoading.value = false;
+        }
+    }
+</script>
