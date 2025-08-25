@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-md-4 mb-3">
           <label class="form-label">Filter by Status</label>
-          <select class="form-select">
+          <select v-model="statusFilter" class="form-select">
             <option value="">All Status</option>
             <option v-for="status in ORDER_STATUSES" :key="status" :value="status">{{ status }}</option>
           </select>
@@ -188,10 +188,16 @@
 
     const filteredOrders  = computed(()=>{
         let filteredOrders = [...orders];
-
+        console.log('filteredOrders');
+        console.log(filteredOrders);
+        console.log('statusFilter.value : ' + statusFilter.value);
         if(statusFilter.value){
             filteredOrders = filteredOrders.filter((order) => order.status.toUpperCase() === statusFilter.value.toUpperCase());
         }
+
+        console.log('filteredOrders after status filter');
+        console.log(filteredOrders);
+        
 
         return filteredOrders;
     });
