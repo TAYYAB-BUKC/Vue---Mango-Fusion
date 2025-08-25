@@ -39,13 +39,13 @@
       </div>
     </div>
 
-    <div class="text-center py-4 fs-5 text-body-secondary">Loading orders...</div>
-    <div class="text-center py-5 card border-0 shadow-sm">
+    <div class="text-center py-4 fs-5 text-body-secondary" v-if="isLoading">Loading orders...</div>
+    <div class="text-center py-5 card border-0 shadow-sm" v-else-if="filteredOrders.length === 0">
       <p class="mb-0">No orders found matching your criteria.</p>
     </div>
-    <div>
+    <div v-else>
       <div class="mb-3">
-        <span class="badge bg-success">XX orders found</span>
+        <span class="badge bg-success">{{ filteredOrders.length }} orders found</span>
       </div>
       <div class="table-responsive card border-0 shadow-sm">
         <table class="table table-hover mb-0">
