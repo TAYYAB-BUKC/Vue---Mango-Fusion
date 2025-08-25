@@ -153,6 +153,15 @@
     const isLoading = ref(false);
     const orders = reactive([]);
 
+    // Filtering and Sorting
+    const statusFilter = ref('');
+    const searchQuery = ref('');
+    const sortBy = ref('id');
+    const sortDirection = ref('desc');
+
+    const itemsPerPage = 5;
+    const currentPage = ref(1);
+    
     onMounted(async () => {
         await FetchOrders();
     });
@@ -169,5 +178,13 @@
         finally{
             isLoading.value = false;
         }
+    }
+
+    function ResetFilters(){
+         statusFilter.value = '';
+         searchQuery.value = '';
+         sortBy.value = 'id';
+         sortDirection.value = 'desc';
+         currentPage.value = 1;
     }
 </script>
