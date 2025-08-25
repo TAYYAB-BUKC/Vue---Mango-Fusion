@@ -70,17 +70,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>#ID</td>
-              <td>NAME</td>
+            <tr v-for="order in filteredOrders" :key="order.id">
+              <td>#{{ order?.id }}</td>
+              <td>{{ order?.name }}</td>
               <td>
-                <div>PHONE</div>
-                <div class="text-body-secondary small">EMAIL</div>
+                <div>{{ order?.phoneNumber }}</div>
+                <div class="text-body-secondary small">{{ order?.email }}</div>
               </td>
-              <td>$$$</td>
-              <td>Count of Items</td>
+              <td>{{ order?.orderItems }} Items</td>
+              <td>$ {{ order.orderTotal }}</td>
               <td>
-                <div class="badge rounded-pill">STATUS</div>
+                <div class="badge rounded-pill">{{ order.status }}</div>
               </td>
               <td>
                 <button class="btn btn-sm btn-success">
@@ -142,7 +142,7 @@
 </template>
 
 <script setup>
-    import { ref, onMounted, reactive } from 'vue';
+    import { ref, onMounted, reactive, computed } from 'vue';
     import orderService from '@/services/orderService';
     import { useSweetAlert } from '@/composibles/useSweetAlert';
     import { ORDER_STATUSES } from '@/constants/constants';
@@ -167,7 +167,7 @@
     async function FetchOrders(){
         isLoading.value = true;
         try {
-            const response = await orderService.GetOrders();
+            const response = await orderService.GetOrders('');
             orders.push(...response); 
         } catch (error) {
             console.error(error);
