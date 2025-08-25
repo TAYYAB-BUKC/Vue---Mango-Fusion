@@ -13,3 +13,11 @@ export const ROLE_CUSTOMER = 'Customer';
 export const ROLES = [ROLE_ADMIN, ROLE_CUSTOMER];
 
 export const TOKEN_COOKIE_NAME = 'token_mango';
+
+export const ORDER_STATUS_RECEIVED = "Received";
+export const ORDER_STATUS_ACCEPTED = "Accepted";
+export const ORDER_STATUS_READYFORPICKUP = "ReadyForPickup";
+export const ORDER_STATUS_DELIVERED = "Delivered";
+export const ORDER_STATUS_CANCELLED = "Cancelled";
+
+export const ORDER_STATUSES = [ORDER_STATUS_RECEIVED, ORDER_STATUS_ACCEPTED, ORDER_STATUS_READYFORPICKUP, ORDER_STATUS_DELIVERED, ORDER_STATUS_CANCELLED];
