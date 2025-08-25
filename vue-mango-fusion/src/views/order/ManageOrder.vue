@@ -80,7 +80,13 @@
               <td>{{ order?.orderItems }} Items</td>
               <td>$ {{ order.orderTotal }}</td>
               <td>
-                <div class="badge rounded-pill">{{ order.status }}</div>
+                <div class="badge rounded-pill" :class="{
+                    'bg-warning-subtle text-warning-emphasis': order.status === ORDER_STATUS_RECEIVED,
+                    'bg-primary-subtle text-primary-emphasis': order.status === ORDER_STATUS_ACCEPTED,
+                    'bg-info-subtle text-info-emphasis': order.status === ORDER_STATUS_READYFORPICKUP,
+                    'bg-success-subtle text-success-emphasis': order.status === ORDER_STATUS_DELIVERED,
+                    'bg-danger-subtle text-danger-emphasis': order.status === ORDER_STATUS_CANCELLED
+                }">{{ order.status }}</div>
               </td>
               <td>
                 <button class="btn btn-sm btn-success">
@@ -145,7 +151,7 @@
     import { ref, onMounted, reactive, computed } from 'vue';
     import orderService from '@/services/orderService';
     import { useSweetAlert } from '@/composibles/useSweetAlert';
-    import { ORDER_STATUSES } from '@/constants/constants';
+    import { ORDER_STATUS_ACCEPTED, ORDER_STATUS_CANCELLED, ORDER_STATUS_DELIVERED, ORDER_STATUS_READYFORPICKUP, ORDER_STATUS_RECEIVED, ORDER_STATUSES } from '@/constants/constants';
     
     const isLoading = ref(false);
     const orders = reactive([]);
