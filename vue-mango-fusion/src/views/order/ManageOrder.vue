@@ -9,10 +9,7 @@
           <label class="form-label">Filter by Status</label>
           <select class="form-select">
             <option value="">All Status</option>
-            <option value="Confirmed">Confirmed</option>
-            <option value="Ready for Pickup">Ready for Pickup</option>
-            <option value="Completed">Completed</option>
-            <option value="Cancelled">Cancelled</option>
+            <option v-for="status in ORDER_STATUSES" :key="status" :value="status">{{ status }}</option>
           </select>
         </div>
         <div class="col-md-4 mb-3">
@@ -148,10 +145,11 @@
     import { ref, onMounted, reactive } from 'vue';
     import orderService from '@/services/orderService';
     import { useSweetAlert } from '@/composibles/useSweetAlert';
-    const { showError } = useSweetAlert();
-
+    import { ORDER_STATUSES } from '@/constants/constants';
+    
     const isLoading = ref(false);
     const orders = reactive([]);
+    const { showError } = useSweetAlert();
 
     // Filtering and Sorting
     const statusFilter = ref('');
@@ -187,4 +185,14 @@
          sortDirection.value = 'desc';
          currentPage.value = 1;
     }
+
+    const filteredOrders  = computed(()=>{
+        let filteredOrders = [...orders];
+
+        if(statusFilter.value){
+            filteredOrders = filteredOrders.filter((order) => order.status.toUpperCase() === statusFilter.value.toUpperCase());
+        }
+
+        return filteredOrders;
+    });
 </script>
