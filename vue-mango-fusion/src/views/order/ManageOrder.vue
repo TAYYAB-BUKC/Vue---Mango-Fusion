@@ -14,15 +14,15 @@
         </div>
         <div class="col-md-4 mb-3">
           <label class="form-label">Sort By</label>
-          <select class="form-select">
-            <option value="orderHeaderId">Order ID</option>
+          <select v-model="sortBy" class="form-select">
+            <option value="id">Order ID</option>
             <option value="orderTotal">Total Amount</option>
-            <option value="pickUpName">Customer Name</option>
+            <option value="name">Customer Name</option>
           </select>
         </div>
         <div class="col-md-4 mb-3">
           <label class="form-label">Sort Direction</label>
-          <select class="form-select">
+          <select v-model="sortDirection" class="form-select">
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
           </select>
@@ -200,6 +200,23 @@
                                 || order.phoneNumber.toUpperCase().includes(searchQuery.value.toUpperCase()));
         }
     
+        filteredOrders.sort((a,b)=> {
+            let aValue = a[sortBy.value];
+            let bValue = b[sortBy.value];
+
+            if(typeof(aValue)  == 'string'){
+                aValue = aValue.toUpperCase();
+                bValue = bValue.toUpperCase();
+            }
+
+            if(sortDirection.value == 'asc'){
+                return aValue > bValue ? 1 : -1;
+            }
+            else{
+                return aValue < bValue ? 1 : -1;
+            }
+        })
+
         return filteredOrders;
     });
 </script>
