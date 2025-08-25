@@ -31,7 +31,7 @@
       <div class="row mt-2">
         <div class="col-md-8 mb-3">
           <label class="form-label">Search</label>
-          <input type="text" class="form-control" placeholder="Search by name, email or phone" />
+          <input type="text" class="form-control" placeholder="Search by name, email or phone" v-model="searchQuery"/>
         </div>
         <div class="col-md-4 mb-3 d-flex align-items-end">
           <button class="btn btn-outline-secondary w-100">Reset Filters</button>
@@ -188,17 +188,18 @@
 
     const filteredOrders  = computed(()=>{
         let filteredOrders = [...orders];
-        console.log('filteredOrders');
-        console.log(filteredOrders);
-        console.log('statusFilter.value : ' + statusFilter.value);
+    
         if(statusFilter.value){
             filteredOrders = filteredOrders.filter((order) => order.status.toUpperCase() === statusFilter.value.toUpperCase());
         }
 
-        console.log('filteredOrders after status filter');
-        console.log(filteredOrders);
-        
-
+        if(searchQuery.value){
+            filteredOrders = filteredOrders.filter((order) => 
+                                order.name.toUpperCase().includes(searchQuery.value.toUpperCase())
+                                || order.email.toUpperCase().includes(searchQuery.value.toUpperCase())
+                                || order.phoneNumber.toUpperCase().includes(searchQuery.value.toUpperCase()));
+        }
+    
         return filteredOrders;
     });
 </script>
