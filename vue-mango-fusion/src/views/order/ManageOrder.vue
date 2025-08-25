@@ -51,19 +51,19 @@
         <table class="table table-hover mb-0">
           <thead>
             <tr>
-              <th class="cursor-pointer">
+              <th style="cursor: pointer" @click="updateSortBy('id')">
                 Order ID
-                <span class="ms-1"> ↑↓ </span>
+                <span class="ms-1" v-if="sortBy == 'id'"> {{ sortDirection == 'asc' ? '↑' : '↓' }} </span>
               </th>
-              <th class="cursor-pointer">
+              <th style="cursor: pointer"  @click="updateSortBy('name')">
                 Customer
-                <span class="ms-1"> ↑↓ </span>
+                <span class="ms-1" v-if="sortBy == 'name'"> {{ sortDirection == 'asc' ? '↑' : '↓' }} </span>
               </th>
               <th>Contact</th>
               <th>Number of Items</th>
-              <th class="cursor-pointer">
+              <th style="cursor: pointer"  @click="updateSortBy('orderTotal')">
                 Total
-                <span class="ms-1"> ↑↓ </span>
+                <span class="ms-1" v-if="sortBy == 'orderTotal'"> {{ sortDirection == 'asc' ? '↑' : '↓' }} </span>
               </th>
               <th>Status</th>
               <th>Actions</th>
@@ -219,4 +219,14 @@
 
         return filteredOrders;
     });
+
+    const updateSortBy = (columnName) => {
+        if(sortBy.value == columnName){
+            sortDirection.value = sortDirection.value == 'asc' ? 'desc' : 'asc';
+        }
+        else{
+            sortBy.value = columnName;
+            sortDirection.value = 'asc';
+        }
+    };
 </script>
