@@ -118,12 +118,17 @@
           </li>
 
           <!-- Page numbers with limited display -->
-          <li class="page-item disabled">
-            <span class="page-link border-success">...</span>
-          </li>
-          <li class="page-item">
-            <a class="page-link text-muted border-success" href="#"> XX </a>
-          </li>
+          <template v-for="page in displayedPageNumbers" :key="page">
+            <li class="page-item disabled">
+                <span class="page-link border-success">...</span>
+            </li>
+            <li class="page-item">
+                <a :class="
+                    page == currentPage ? 'bg-success border-success text-white' : 'text-success border-success'
+                " class="page-link text-muted border-success" href="#" @click="updatePage(page)"> {{ page }} </a>
+            </li>
+          </template>
+          
           <!-- Next button -->
           <li class="page-item">
             <a class="page-link text-success border-success" href="#" aria-label="Next" @click="updatePage(currentPage + 1)">
@@ -252,4 +257,11 @@
         }
         currentPage.value = page;
     };
+
+    const displayedPageNumbers = computed(() => {
+        if(totalPages.value <= 5){
+            return Array.from({length: totalPages.value}, (_, i) => i + 1);
+        }
+    });
+
 </script>
