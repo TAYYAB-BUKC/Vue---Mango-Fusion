@@ -164,6 +164,7 @@
 
 <script setup>
     import { ORDER_STATUS_ACCEPTED, ORDER_STATUS_CANCELLED, ORDER_STATUS_DELIVERED, ORDER_STATUS_READYFORPICKUP, ORDER_STATUS_RECEIVED, ORDER_STATUSES } from '@/constants/constants';
+    import orderService from '@/services/orderService';
 
     const emit = defineEmits(['closeModal']);
     const props = defineProps({
@@ -183,5 +184,21 @@
             hour: '2-digit',
             minute: '2-digit'
         });
+    }
+
+    const updateStatus = async(newStatus) => {
+        try {
+            const orderToBeUpdate = {
+                "id": props.order?.id,
+                "name": props.order?.name,
+                "email": props.order?.email,
+                "phoneNumber": props.order?.phoneNumber,
+                "status": newStatus
+            }
+            const response = await orderService.UpdateOrder(orderToBeUpdate);
+            console.log(response);            
+        } catch (error) {
+            console.error('Error updating status: ', error);            
+        }
     }
 </script>
