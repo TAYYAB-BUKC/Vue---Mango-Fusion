@@ -119,10 +119,10 @@
 
           <!-- Page numbers with limited display -->
           <template v-for="page in displayedPageNumbers" :key="page">
-            <li class="page-item disabled">
+            <li class="page-item disabled" v-if="page == '...'">
                 <span class="page-link border-success">...</span>
             </li>
-            <li class="page-item">
+            <li class="page-item" v-else>
                 <a :class="
                     page == currentPage ? 'bg-success border-success text-white' : 'text-success border-success'
                 " class="page-link text-muted border-success" href="#" @click="updatePage(page)"> {{ page }} </a>
@@ -259,9 +259,34 @@
     };
 
     const displayedPageNumbers = computed(() => {
+        const delta = 1; // Number of pages to show before and after the current page
+
         if(totalPages.value <= 5){
             return Array.from({length: totalPages.value}, (_, i) => i + 1);
         }
+
+        let range = [];
+
+        range.push(1);
+
+        const rangeStart = Math.max(2, currentPage.value - delta);
+        const rangeEnd = Math.min(totalPages.value - 1, currentPage.value + delta);
+
+        if(rangeStart > 2){
+            range.push('...');
+        }
+
+        for(let i = rangeStart; i <= rangeEnd; i++){
+            range.push(i);
+        } 
+
+        if(rangeEnd < totalPages.value - 1){
+             range.push('...');
+        }
+
+         range.push(totalPages.value);
+
+         return range;
     });
 
 </script>
