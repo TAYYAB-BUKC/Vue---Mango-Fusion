@@ -125,16 +125,16 @@
               <div
                 class="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center gap-2 mb-3"
               >
-                <button class="btn btn-success flex-fill">
+                <button class="btn btn-success flex-fill" :disabled="isStatusDisabled(ORDER_STATUS_ACCEPTED)">
                   <i class="bi bi-clock me-1"></i>
-                  <span class="small">Confirmed</span>
+                  <span class="small">Accepted</span>
                 </button>
 
                 <div class="d-none d-sm-block text-secondary">
                   <i class="bi bi-arrow-right"></i>
                 </div>
 
-                <button class="btn btn-success flex-fill">
+                <button class="btn btn-success flex-fill" :disabled="isStatusDisabled(ORDER_STATUS_READYFORPICKUP)">
                   <i class="bi bi-gear me-1"></i>
                   <span class="small">Ready for Pickup</span>
                 </button>
@@ -143,14 +143,14 @@
                   <i class="bi bi-arrow-right"></i>
                 </div>
 
-                <button class="btn btn-success flex-fill">
+                <button class="btn btn-success flex-fill" :disabled="isStatusDisabled(ORDER_STATUS_DELIVERED)">
                   <i class="bi bi-check-circle me-1"></i>
                   <span class="small">Completed</span>
                 </button>
               </div>
 
               <!-- Cancel Button -->
-              <button class="btn btn-outline-danger w-100">
+              <button class="btn btn-outline-danger w-100" :disabled="isStatusDisabled(ORDER_STATUS_CANCELLED)">
                 <i class="bi bi-x-circle me-1"></i>
                 <span class="small">Cancel Order</span>
               </button>
@@ -200,5 +200,32 @@
         } catch (error) {
             console.error('Error updating status: ', error);            
         }
+    }
+
+    const isStatusDisabled= (status) => {
+        const currentIndex = ORDER_STATUSES.indexOf(props.order?.status);
+        const targetIndex = ORDER_STATUSES.indexOf(status);
+
+        if(targetIndex <= currentIndex){
+            return true;
+        }
+
+        if(props.order?.status === ORDER_STATUS_CANCELLED){
+            return true;
+        }
+
+        if(props.order?.status === ORDER_STATUS_DELIVERED){
+            return true;
+        }
+
+        if(props.order?.status === ORDER_STATUS_RECEIVED && status === ORDER_STATUS_DELIVERED){
+            return true;
+        }
+
+        if(props.order?.status === ORDER_STATUS_RECEIVED && status === ORDER_STATUS_READYFORPICKUP){
+            return true;
+        }
+
+        return false;
     }
 </script>
