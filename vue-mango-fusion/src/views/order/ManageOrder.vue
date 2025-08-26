@@ -34,7 +34,7 @@
           <input type="text" class="form-control" placeholder="Search by name, email or phone" v-model="searchQuery"/>
         </div>
         <div class="col-md-4 mb-3 d-flex align-items-end">
-          <button class="btn btn-outline-secondary w-100">Reset Filters</button>
+          <button class="btn btn-outline-secondary w-100" @click="ResetFilters">Reset Filters</button>
         </div>
       </div>
     </div>
