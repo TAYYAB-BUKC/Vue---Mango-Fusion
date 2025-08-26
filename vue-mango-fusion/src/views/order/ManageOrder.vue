@@ -89,7 +89,7 @@
                 }">{{ order.status }}</div>
               </td>
               <td>
-                <button class="btn btn-sm btn-success">
+                <button class="btn btn-sm btn-success" @click="OpenModal(order)">
                   <i class="bi bi-card-checklist"></i> &nbsp;View Details
                 </button>
               </td>
@@ -149,7 +149,7 @@
     </div>
 
     <!-- Order Details Modal Component -->
-     <OrderDetailsModal></OrderDetailsModal>
+     <OrderDetailsModal :order="selectedOrder" @closeModal="closeModal"></OrderDetailsModal>
   </div>
 </template>
 
@@ -173,6 +173,8 @@
     const itemsPerPage = 5;
     const currentPage = ref(1);
     
+    const selectedOrder = ref(null);
+
     onMounted(async () => {
         await FetchOrders();
     });
@@ -290,5 +292,13 @@
 
          return range;
     });
+
+    function closeModal(){
+        selectedOrder.value = null;
+    }
+
+    function OpenModal(order){
+        selectedOrder.value = order;
+    }
 
 </script>

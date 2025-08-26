@@ -1,5 +1,5 @@
 <template>
-    <div
+    <div v-if="order"
     class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-black bg-opacity-50"
     style="z-index: 1050"
   >
@@ -16,7 +16,7 @@
               <i class="bi bi-receipt-cutoff pe-1 text-success"></i>
               <h5 class="mb-0 fs-5 text-success">Order #</h5>
             </div>
-            <button class="btn-close ms-auto ms-sm-0" aria-label="Close modal"></button>
+            <button class="btn-close ms-auto ms-sm-0" aria-label="Close modal" @click="emit('closeModal')"></button>
           </div>
 
           <div
@@ -154,3 +154,10 @@
     </div>
   </div>
 </template>
+
+<script setup>
+    const emit = defineEmits(['closeModal']);
+    const props = defineProps({
+        order: Object
+    });
+</script>
