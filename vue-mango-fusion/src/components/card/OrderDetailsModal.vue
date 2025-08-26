@@ -226,6 +226,10 @@
             return true;
         }
 
+        if(props.order?.status === ORDER_STATUS_ACCEPTED && status === ORDER_STATUS_DELIVERED){
+            return true;
+        }
+
         return false;
     }
 </script>
