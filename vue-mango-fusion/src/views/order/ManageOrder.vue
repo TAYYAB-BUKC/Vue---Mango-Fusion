@@ -149,6 +149,7 @@
     </div>
 
     <!-- Order Details Modal Component -->
+     <OrderDetailsModal></OrderDetailsModal>
   </div>
 </template>
 
@@ -157,6 +158,7 @@
     import orderService from '@/services/orderService';
     import { useSweetAlert } from '@/composibles/useSweetAlert';
     import { ORDER_STATUS_ACCEPTED, ORDER_STATUS_CANCELLED, ORDER_STATUS_DELIVERED, ORDER_STATUS_READYFORPICKUP, ORDER_STATUS_RECEIVED, ORDER_STATUSES } from '@/constants/constants';
+    import OrderDetailsModal from '@/components/card/OrderDetailsModal.vue';
     
     const isLoading = ref(false);
     const orders = reactive([]);
