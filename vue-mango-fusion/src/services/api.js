@@ -13,8 +13,18 @@ api.interceptors.request.use((configuration) => {
         configuration.headers.Authorization = `Bearer ${securityToken}`;
     }
 
+     console.log("📤 Axios Request:", {
+      url: configuration.url,
+      method: configuration.method,
+      headers: configuration.headers,
+      params: configuration.params,
+      data: configuration.data,
+    });
+
     return configuration;
-    }, (error) => Promise.reject(error)
-);
+    }, (error) => {
+        console.error("❌ Request Error:", error);
+        return Promise.reject(error);
+    });
 
 export default api;
