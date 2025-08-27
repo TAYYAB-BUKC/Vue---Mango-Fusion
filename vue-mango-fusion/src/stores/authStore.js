@@ -99,7 +99,7 @@ export const useAuthStore = defineStore('AuthStore', ()=>{
 
     function Logout(){
         ResetAuth();
-        router.push({ name: APP_ROUTE_NAMES.SIGN_IN });
+        router.push({ name: APP_ROUTE_NAMES.HOME });
     }
 
     return {
