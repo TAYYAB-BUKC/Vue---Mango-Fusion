@@ -21,7 +21,7 @@
                     <router-link class="nav-link" :to="{name: APP_ROUTE_NAMES.ORDER_LIST}">Orders</router-link>
                 </li>
                 <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" v-if="authStore.isAdmin">
                     Administrator Section
                 </a>
                 <ul class="dropdown-menu">
