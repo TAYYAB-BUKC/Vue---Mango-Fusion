@@ -60,5 +60,20 @@ export default {
             console.error(error);
             throw error;
         }
+    },
+    async SubmitRating(formData){
+        try{
+            const response = await api.put('/api/orders/updatedetails', formData);
+            console.log(response);
+            if(response.data.isSuccess){
+                return response.data.data;
+            }
+            else{
+                throw new Error('Unable to submit rating');
+            }
+        }catch(error){
+            console.error(error);
+            throw error;
+        }
     }
 }
