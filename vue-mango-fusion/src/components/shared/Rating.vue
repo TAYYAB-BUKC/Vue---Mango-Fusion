@@ -18,7 +18,8 @@
     <div class="d-flex">
       <div v-for="star in 5" :key="star" class="star-rating me-1" @click="!isReadOnly && onRatingUpdate(star)"
         :class="{'cursor-pointer' : !isReadOnly}">
-        <i :class="props.orderDetails?.rating && props.orderDetails?.rating >= star ? 'bi-star-fill' : 'bi-star'" class="text-warning" width="16"></i>
+        <i :class="props.orderDetails?.rating && Math.round(props.orderDetails?.rating * 2) / 2 >= star ? 'bi-star-fill'
+         : Math.round(props.orderDetails?.rating * 2) / 2 >= star - 0.5 ? 'bi-star-half': 'bi-star'" class="text-warning" width="16"></i>
       </div>
     </div>
 
