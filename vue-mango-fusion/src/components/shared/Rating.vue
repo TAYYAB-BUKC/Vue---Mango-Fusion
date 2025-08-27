@@ -16,7 +16,8 @@
   <div class="d-flex align-items-center">
     <small class="text-secondary me-2">Rate this item:</small>
     <div class="d-flex">
-      <div v-for="star in 5" :key="star" class="star-rating me-1" @click="onRatingUpdate(star)">
+      <div v-for="star in 5" :key="star" class="star-rating me-1" @click="!isReadOnly && onRatingUpdate(star)"
+        :class="{'cursor-pointer' : !isReadOnly}">
         <i :class="props.orderDetails?.rating && props.orderDetails?.rating >= star ? 'bi-star-fill' : 'bi-star'" class="text-warning" width="16"></i>
       </div>
     </div>
@@ -42,7 +43,11 @@
     const emit = defineEmits(['rateItem']);
 
     const props =defineProps({
-        orderDetails: Object
+        orderDetails: Object,
+        isReadOnly: {
+            type: Boolean,
+            default: false
+        }
     });
 
     const onRatingUpdate = async (newRating) =>{
