@@ -23,7 +23,7 @@
     </div>
 
     <div v-if="props.orderDetails?.rating" class="ms-2 text-secondary small">
-        ({{ props.orderDetails?.rating }})
+        ({{ props.orderDetails?.rating.toFixed(1) }})
     </div>
     <div class="spinner-border spinner-border-sm text-warning ms-2" role="status" v-if="isProcessing">
       <span class="visually-hidden">Rating...</span>
