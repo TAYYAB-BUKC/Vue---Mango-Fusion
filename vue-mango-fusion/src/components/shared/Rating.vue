@@ -14,7 +14,7 @@
 
 <template>
   <div class="d-flex align-items-center">
-    <small class="text-secondary me-2">Rate this item:</small>
+    <small class="text-secondary me-2" v-if="!isReadOnly">Rate this item:</small>
     <div class="d-flex">
       <div v-for="star in 5" :key="star" class="star-rating me-1" @click="!isReadOnly && onRatingUpdate(star)"
         :class="{'cursor-pointer' : !isReadOnly}">
