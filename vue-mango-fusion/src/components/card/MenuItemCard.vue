@@ -38,6 +38,10 @@
           {{ menuItem?.description }}
         </p>
 
+        <div class="pb-2">
+          <Rating :orderDetails="menuItem" :isReadOnly="true" ></Rating>
+        </div>
+
         <!-- Tags -->
         <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
           <div class="d-flex align-items-center btn btn-outline-secondary disabled px-2 py-1 small" v-if="menuItem?.specialTag">
@@ -82,6 +86,7 @@
     import { API_URL } from '@/constants/config';
     import { useCartStore } from '@/stores/cartStore';
     import { ref, computed } from 'vue';
+    import Rating from '@/components/shared/Rating.vue';
 
     const props = defineProps({
         menuItem: Object
