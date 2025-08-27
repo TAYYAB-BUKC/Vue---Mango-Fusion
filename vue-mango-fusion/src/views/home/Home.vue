@@ -103,7 +103,7 @@
             >
           </MenuItemCard>
         </div>
-        <div class="text-center py-5 display-4 mx-auto text-body-secondary mb-3 d-block" v-if="filteredItems.length == 0">
+        <div class="text-center py-5 display-4 mx-auto text-body-secondary mb-3 d-block" v-if="!isLoading && filteredItems.length == 0">
             <i class="bi bi-emoji-frown"></i>
             <p class="lead text-body-secondary">No menu items found matching your criteria</p>
           </div>
