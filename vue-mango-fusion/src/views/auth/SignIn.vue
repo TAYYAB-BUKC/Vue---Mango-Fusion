@@ -2,9 +2,14 @@
     
   <div class="container mt-5">
     <div class="row justify-content-center">
-      <div class="col-md-6 col-lg-4">
-        <div class="card shadow">
-          <div class="card-body p-4">
+      <div class="col-md-10">
+        <div class="card shadow d-flex flex-row">
+          <img
+            src="@/assets/hero.jpg"
+            class="card-img-left img-fluid"
+            style="width: 50%; object-fit: cover"
+          />
+          <div class="card-body p-5" style="width: 50%">
             <h2 class="text-center mb-4">Sign In</h2>
             <form @submit.prevent="OnSignInSubmit">
               <div class="mb-3">
