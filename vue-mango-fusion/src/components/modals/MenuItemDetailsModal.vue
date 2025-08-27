@@ -75,6 +75,10 @@
                   <h4 class="fw-bold mb-0 fs-5 fs-sm-4">{{ menuItem?.name }}</h4>
                 </div>
 
+                <div class="pb-2">
+                  <Rating :orderDetails="menuItem" :isReadOnly="true" ></Rating>
+                </div>
+
                 <!-- Category -->
                 <div>
                   <div class="text-secondary small mb-1">
@@ -131,6 +135,8 @@
 
 <script setup>
     import { API_URL } from '@/constants/config';
+    import Rating from '../shared/Rating.vue';
+    
     const props = defineProps({
         isShow: Boolean,
         menuItem: Object,
