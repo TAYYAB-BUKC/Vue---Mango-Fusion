@@ -169,11 +169,13 @@
 <script setup>
     import { ORDER_STATUS_ACCEPTED, ORDER_STATUS_CANCELLED, ORDER_STATUS_DELIVERED, ORDER_STATUS_READYFORPICKUP, ORDER_STATUS_RECEIVED, ORDER_STATUSES } from '@/constants/constants';
     import orderService from '@/services/orderService';
+    import { useSweetAlert } from '@/composibles/useSweetAlert';
 
-    const emit = defineEmits(['closeModal']);
+    const emit = defineEmits(['closeModal', 'updateOrders']);
     const props = defineProps({
         order: Object
     });
+    const { showSuccess, showError } = useSweetAlert();
 
     const formatDate = (date) => {
         if(!date){
@@ -200,9 +202,13 @@
                 "status": newStatus
             }
             const response = await orderService.UpdateOrder(orderToBeUpdate);
-            console.log(response);            
+            console.log(response);
+            showSuccess('Order updated successfully!');
+            emit('updateOrders');
+
         } catch (error) {
             console.error('Error updating status: ', error);            
+            showSuccess('Order update failed!');
         }
     }
 

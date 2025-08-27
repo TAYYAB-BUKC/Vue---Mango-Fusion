@@ -149,7 +149,7 @@
     </div>
 
     <!-- Order Details Modal Component -->
-     <OrderDetailsModal :order="selectedOrder" @closeModal="closeModal"></OrderDetailsModal>
+     <OrderDetailsModal :order="selectedOrder" @closeModal="closeModal" @updateOrders="UpdateOrders"></OrderDetailsModal>
   </div>
 </template>
 
@@ -183,6 +183,7 @@
         isLoading.value = true;
         try {
             const response = await orderService.GetOrders('');
+            orders.length = 0;
             orders.push(...response); 
         } catch (error) {
             console.error(error);
@@ -301,4 +302,8 @@
         selectedOrder.value = order;
     }
 
+    async function UpdateOrders(){
+        await FetchOrders();
+        selectedOrder.value = null;
+    }
 </script>
