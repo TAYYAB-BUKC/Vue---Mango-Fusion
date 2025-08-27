@@ -46,6 +46,7 @@
               <span class="text-body-secondary">$ {{ orderDetails?.price.toFixed(2) }}</span>
             </div>
           </div>
+          <Rating></Rating>
         </div>
       </div>
     </div>
@@ -53,7 +54,9 @@
 </template>
 
 <script setup>
-    const props = defineProps({
-        order: Object
-    });
+  import Rating from '../shared/Rating.vue';
+
+  const props = defineProps({
+      order: Object
+  });
 </script>
