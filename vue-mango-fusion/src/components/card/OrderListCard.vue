@@ -46,7 +46,7 @@
               <span class="text-body-secondary">$ {{ orderDetails?.price.toFixed(2) }}</span>
             </div>
           </div>
-          <Rating></Rating>
+          <Rating @rateItem="OnItemRating" :orderDetails="orderDetails"></Rating>
         </div>
       </div>
     </div>
@@ -59,4 +59,10 @@
   const props = defineProps({
       order: Object
   });
+
+  const emit = defineEmits(['rateItem']);
+
+  const OnItemRating = (formData) => {
+    emit('rateItem', formData);
+  }
 </script>

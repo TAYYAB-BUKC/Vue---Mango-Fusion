@@ -26,7 +26,7 @@
     <div class="row g-4" v-if="orders.length > 0">
       <div class="col-md-6 col-lg-4" v-for="order in orders" :key="order.id">
         <!-- Order Card -->
-        <OrderListCard :order="order" />
+        <OrderListCard :order="order" @rateItem="rateItem" />
       </div>
     </div>
   </div>
@@ -60,6 +60,19 @@
         }
         finally{
             isLoading.value = false;
+        }
+    }
+
+    async function rateItem(formData){
+        try {
+            await orderService.SubmitRating(formData);
+            const orderDetail = orders.flatMap((order) => order.details).find((orderDetail) => orderDetail.id == formData.id);
+            if(orderDetail){
+              orderDetail.rating = formData.rating;
+            }
+        } catch (error) {
+            console.error(error);
+            showError(error.message);
         }
     }
 </script>
